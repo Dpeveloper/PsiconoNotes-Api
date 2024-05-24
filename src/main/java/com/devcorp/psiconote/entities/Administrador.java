@@ -15,7 +15,7 @@ public class Administrador {
     private String nombre;
     private String apellido;
     private String email;
-    private Date nacimiento;
+    private Date fechaNacimiento;
 
     @OneToOne
     @JoinColumn(name = "idUsuario",referencedColumnName = "id")

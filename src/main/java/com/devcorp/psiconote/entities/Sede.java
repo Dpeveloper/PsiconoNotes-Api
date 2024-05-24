@@ -12,7 +12,7 @@ public class Sede {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
-    private String nombre;
+    private String nombreSede;
     @ManyToOne
     @JoinColumn(name = "id_admin",referencedColumnName = "id")
     private Administrador administrador;

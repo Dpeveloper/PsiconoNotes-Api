@@ -19,7 +19,7 @@ public class Sesion {
     private Long id;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime fechaYHora;
-    private String lugar;
+    private String lugarSesion;
 
     //paciente dentro de la sesión
     @OneToOne(targetEntity = Paciente.class,fetch = FetchType.EAGER)

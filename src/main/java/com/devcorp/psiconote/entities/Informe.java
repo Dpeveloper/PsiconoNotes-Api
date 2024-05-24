@@ -23,7 +23,7 @@ public class Informe {
     private String planAccion;
     private String notasAdicionales;
 
-    //psicologo del informe
+    //psicologo presente en el informe
     @OneToOne(targetEntity = Psicologo.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "idPsicologo",referencedColumnName = "id")
     private Psicologo psicologo;
