@@ -11,6 +11,6 @@ public class Grado {
     private Long id;
     private String nombre;
     @ManyToOne
-    @JoinColumn(name = "id_institucion",referencedColumnName = "id")
-    private Institucion institucion;
+    @JoinColumn(name = "id_sede",referencedColumnName = "id")
+    private Sede sede;
 }

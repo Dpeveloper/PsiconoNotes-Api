@@ -22,5 +22,5 @@ public class Administrador {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "administrador")
-    private List<Institucion> instituciones;
+    private List<Sede> sedes;
 }
