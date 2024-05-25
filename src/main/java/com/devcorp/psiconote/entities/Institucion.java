@@ -10,7 +10,7 @@ import java.util.List;
 public class Institucion {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private Long id;
     private String nombre;
     @ManyToOne
     @JoinColumn(name = "id_admin",referencedColumnName = "id")

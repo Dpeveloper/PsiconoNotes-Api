@@ -1,7 +1,5 @@
 package com.devcorp.psiconote.entities;
 
-import jakarta.persistence.*;
-
 public class Paciente {
     private Long id;
     private String nombre;

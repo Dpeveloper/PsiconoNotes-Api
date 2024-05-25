@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-@Entity(name = "Usuario")
+@Entity(name = "Usuarios")
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String userName;
