@@ -3,6 +3,8 @@ package com.devcorp.psiconote.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity(name = "Piscologos")
 public class Psicologo {
@@ -18,4 +20,7 @@ public class Psicologo {
     @OneToOne
     @JoinColumn(name = "usuario_id",referencedColumnName = "id")
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "psicologo")
+    private List<Paciente> pacientes;
 }

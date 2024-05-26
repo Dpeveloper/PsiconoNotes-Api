@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface RolRepository extends JpaRepository<Rol, Long> {
     public Rol save(Rol rol);
     public Optional<Rol> findById(Long id);
-    public Rol findByName(String name);
+    public Rol findByNombre(String name);
     public List<Rol> findAll();
     public void delete(Rol rol);
 }

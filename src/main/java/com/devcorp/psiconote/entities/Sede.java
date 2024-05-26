@@ -6,16 +6,17 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@Entity(name = "Instituciones")
-public class Institucion {
+@Entity
+@Table(name = "Sedes")
+public class Sede {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-    private String nombre;
+    private int id;
+    private String nombreSede;
     @ManyToOne
     @JoinColumn(name = "id_admin",referencedColumnName = "id")
     private Administrador administrador;
 
-    @OneToMany(mappedBy = "institucion")
+    @OneToMany(mappedBy = "sede")
     private List<Grado> grados;
 }

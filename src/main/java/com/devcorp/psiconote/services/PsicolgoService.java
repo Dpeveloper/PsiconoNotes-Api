@@ -1,5 +1,6 @@
 package com.devcorp.psiconote.services;
 
+import com.devcorp.psiconote.dtos.InformeDto;
 import com.devcorp.psiconote.dtos.PsicologoDto;
 import com.devcorp.psiconote.dtos.mappers.PacienteDto;
 

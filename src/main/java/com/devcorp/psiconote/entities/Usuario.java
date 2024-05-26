@@ -23,6 +23,8 @@ public class Usuario {
     @OneToOne(mappedBy = "usuario")
     private Administrador administrador;
 
+    @OneToOne(mappedBy = "usuario")
+    private Paciente paciente;
     @ManyToMany
     @JoinTable(
         name = "usuarios_roles",

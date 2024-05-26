@@ -15,12 +15,12 @@ public class Administrador {
     private String nombre;
     private String apellido;
     private String email;
-    private Date nacimiento;
+    private Date fechaNacimiento;
 
     @OneToOne
     @JoinColumn(name = "idUsuario",referencedColumnName = "id")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "administrador")
-    private List<Institucion> instituciones;
+    private List<Sede> sedes;
 }
