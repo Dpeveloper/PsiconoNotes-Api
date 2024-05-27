@@ -2,7 +2,6 @@ package com.devcorp.psiconote.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 @Data
 @Entity(name = "Pacientes")
 public class Paciente {

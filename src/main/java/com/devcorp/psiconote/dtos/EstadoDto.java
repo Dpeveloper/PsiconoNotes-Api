@@ -1,3 +1,3 @@
 package com.devcorp.psiconote.dtos;
 
-public record EstadoDto(Long id,String nombre) {}
+public record EstadoDto(Long id,String nombreEstado) {}

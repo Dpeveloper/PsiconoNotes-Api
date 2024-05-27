@@ -4,6 +4,7 @@ import com.devcorp.psiconote.dtos.EstadoDto;
 import com.devcorp.psiconote.dtos.EstadoToSaveDto;
 import com.devcorp.psiconote.entities.Estado;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 
@@ -11,6 +12,7 @@ import org.mapstruct.factory.Mappers;
 public interface EstadoMapper {
     EstadoMapper instancia= Mappers.getMapper(EstadoMapper.class);
 
+    @Mapping(target = "id",ignore = true)
     Estado estadoToSaveDtoToEntity(EstadoToSaveDto estadoToSaveDto);
     EstadoDto entityToEstadoDto(Estado estado);
     Estado estadoDtoToEntity(EstadoDto estadoDto);

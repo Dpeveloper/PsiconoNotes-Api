@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("psicoNote/v1/estado")
+@RequestMapping("/psicoNote/v1/estado")
 public class EstadoController {
     private final EstadoService estadoService;
 
@@ -40,7 +40,7 @@ public class EstadoController {
             return ResponseEntity.notFound().build();
         }
     }
-    @GetMapping("/{nombreEstado}")
+    @GetMapping("buscarPorNombre/{nombreEstado}")
     public ResponseEntity<?> buscarPorNombre(@PathVariable String nombreEstado){
         try{
             EstadoDto estadoEncontrado=estadoService.buscarEstadoPorNombre(nombreEstado);
@@ -54,4 +54,5 @@ public class EstadoController {
         estadoService.eliminarEstado(id);
         return ResponseEntity.noContent().build();
     }
+
 }

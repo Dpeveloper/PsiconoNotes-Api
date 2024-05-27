@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
-
 @Data
 @Entity(name = "Administradores")
 public class Administrador {
@@ -24,3 +23,5 @@ public class Administrador {
     @OneToMany(mappedBy = "administrador")
     private List<Sede> sedes;
 }
+
+

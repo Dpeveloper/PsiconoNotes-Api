@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SesionRepository extends JpaRepository<Sesion,Long> {
+    @Query("SELECT s FROM Sesion s WHERE estado.nombreEstado=?1")
     List<Sesion> findByEstado(String estado);
     Optional<Sesion> findByFechaYHora(LocalDateTime fechaYHora);
     @Query("SELECT s FROM Sesion s WHERE psicologo.id=?1")

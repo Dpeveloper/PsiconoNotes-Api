@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public interface PsicolgoService {
-
+    /*
     public PsicologoDto actualizarPsicolgo(PsicologoDto psicologo, Long id);
     public PacienteDto agregarPaciente(PacienteDto pacientes);
     public PacienteDto actualizarPaciente(PacienteDto paciente, Long id);
@@ -21,5 +21,7 @@ public interface PsicolgoService {
     public List<InformeDto> buscarTodosLosInformes();
     public List<InformeDto> buscarInformesDelPaciente(Long id);
     //buscar sesiones proximas
+
+     */
 
 }

@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface PsicologoMapper {
-
     Psicologo toPsicologo(PsicologoDto psicologoDto);
 
     PsicologoDto toPsicologoDto(Psicologo psicologo);

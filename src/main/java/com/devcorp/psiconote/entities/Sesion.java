@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,5 +34,4 @@ public class Sesion {
     @ManyToOne(targetEntity = Estado.class,fetch = FetchType.EAGER)
     @JoinColumn(name="idEstado",referencedColumnName = "id")
     private Estado estado;
-
 }

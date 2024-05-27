@@ -32,7 +32,7 @@ public class EstadoServiceImpl implements EstadoService{
     @Override
     public EstadoDto actualizarEstado(Long id, EstadoToSaveDto estado) {
         return estadoRepository.findById(id).map(estadoEncontrado-> {
-            estadoEncontrado.setNombreEstado(estado.nombre());
+            estadoEncontrado.setNombreEstado(estado.nombreEstado());
             Estado estadoActualizado = estadoRepository.save(estadoEncontrado);
 
             return estadoMapper.entityToEstadoDto(estadoActualizado);
