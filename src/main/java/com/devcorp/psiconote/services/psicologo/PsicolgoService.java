@@ -1,8 +1,8 @@
-package com.devcorp.psiconote.services;
+package com.devcorp.psiconote.services.psicologo;
 
 import com.devcorp.psiconote.dtos.InformeDto;
 import com.devcorp.psiconote.dtos.PsicologoDto;
-import com.devcorp.psiconote.dtos.mappers.PacienteDto;
+import com.devcorp.psiconote.dtos.PacienteDto;
 
 import java.util.List;
 
