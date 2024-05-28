@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface InformeRepository extends JpaRepository<Informe,Long> {
-    @Query("SELECT s FROM Sesion s WHERE paciente.id=?1")
+    @Query("SELECT s FROM Sesion s WHERE Pacientes.id=?1")
     List<Informe> findByPaciente(Long idPaciente);
+
+
 }

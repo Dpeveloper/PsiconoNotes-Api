@@ -30,4 +30,7 @@ public class Paciente {
     @OneToOne
     @JoinColumn(name = "usuario",referencedColumnName = "id")
     private Usuario usuario;
+
+    @OneToOne(mappedBy = "paciente")
+    private Informe informe;
 }

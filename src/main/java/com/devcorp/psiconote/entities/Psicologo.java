@@ -22,4 +22,8 @@ public class Psicologo {
 
     @OneToMany(mappedBy = "psicologo")
     private List<Paciente> pacientes;
+
+    public void setPacientes(Paciente pacientes) {
+        this.pacientes.add(pacientes);
+    }
 }
