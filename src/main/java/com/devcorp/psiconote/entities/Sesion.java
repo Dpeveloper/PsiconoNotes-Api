@@ -31,7 +31,7 @@ public class Sesion {
     private Psicologo psicologo;
 
     //estado de la sesión
-    @ManyToOne(targetEntity = Estado.class,fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Estado.class,fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinColumn(name="idEstado",referencedColumnName = "id")
     private Estado estado;
 }
