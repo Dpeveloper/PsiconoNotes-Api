@@ -1,41 +1,41 @@
 package com.devcorp.psiconote.controller;
 
-import com.devcorp.psiconote.dtos.EstadoDto;
-import com.devcorp.psiconote.dtos.EstadoToSaveDto;
+import com.devcorp.psiconote.dtos.InformeDto;
 import com.devcorp.psiconote.dtos.PacienteDto;
 import com.devcorp.psiconote.dtos.PsicologoDto;
-import com.devcorp.psiconote.services.psicologo.PsicologoServiceImp;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.devcorp.psiconote.services.psicologo.PsicologoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/psicoNote/v1/psicologo")
+@RequestMapping("/api/v1/psicologos")
 public class PsicologoController {
-    public final PsicologoServiceImp psicologoServiceImp;
 
-    public PsicologoController(PsicologoServiceImp psicologoServiceImp) {
-        this.psicologoServiceImp = psicologoServiceImp;
+    private final PsicologoService psicologoService;
+
+    @Autowired
+    public PsicologoController(PsicologoService psicologoService) {
+        this.psicologoService = psicologoService;
     }
 
-    @PostMapping
-    PsicologoDto actualizarPsicologo(@RequestBody PsicologoDto psicologo) {
-        return psicologoServiceImp.actualizarPsicolgo(psicologo);
+    @PutMapping("/{id}")
+    public ResponseEntity<PsicologoDto> actualizarPsicologo(@RequestBody PsicologoDto psicologoDto) {
+        PsicologoDto actualizado = psicologoService.actualizarPsicologo(psicologoDto);
+        return ResponseEntity.ok(actualizado);
     }
 
-    @PostMapping
-    PacienteDto agregarPaciente(@RequestBody Long psicologoId, PacienteDto pacienteDto) {
-        return psicologoServiceImp.agregarPaciente(pacienteDto,psicologoId);
+    @GetMapping("/{id}/pacientes")
+    public ResponseEntity<List<PacienteDto>> buscarTodosLosPacientes(@PathVariable Long id) {
+        List<PacienteDto> pacientes = psicologoService.buscarTodosLosPacientes(id);
+        return ResponseEntity.ok(pacientes);
     }
 
-    @PostMapping
-    PacienteDto actualizarPaciente(@RequestBody PacienteDto pacienteDto, Long psicologoId) {
-        return psicologoServiceImp.actualizarPaciente(pacienteDto, psicologoId);
-    }
-
-    @PostMapping
-    EstadoDto actualizarEstado(@RequestBody EstadoToSaveDto estadoToSaveDto, Long pacienteId) {
-        return psicologoServiceImp.actualizarEstadoPaciente(estadoToSaveDto,pacienteId);
+    @PostMapping("/{id}/informes")
+    public ResponseEntity<InformeDto> generarInformePaciente(@PathVariable Long id, @RequestBody InformeDto informeDto) {
+        InformeDto informeGenerado = psicologoService.generarInformePaciente(id, informeDto);
+        return ResponseEntity.ok(informeGenerado);
     }
 }

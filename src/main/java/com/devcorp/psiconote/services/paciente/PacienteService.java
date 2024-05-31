@@ -6,7 +6,7 @@ import com.devcorp.psiconote.dtos.PacienteDto;
 import java.util.List;
 
 public interface PacienteService {
-    PacienteDto guardarPaciente(PacienteDto pacienteDto);
+    PacienteDto guardarPaciente(Long psicologo,PacienteDto pacienteDto);
     PacienteDto actualizarPaciente(PacienteDto pacienteDto);
     PacienteDto buscarPacientePorId(Long id);
     List<PacienteDto> buscarPacientes();
