@@ -16,8 +16,8 @@ public class SesionController {
     private final SesionServiceImp sesionService;
 
     @Autowired
-    public SesionController(SesionServiceImp sesionService) {
-        this.sesionService = sesionService;
+    public SesionController(SesionServiceImp sesionServiceImp) {
+        this.sesionService = sesionServiceImp;
     }
 
     @PostMapping
