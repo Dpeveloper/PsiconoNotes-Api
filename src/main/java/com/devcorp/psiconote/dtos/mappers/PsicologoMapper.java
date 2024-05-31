@@ -4,7 +4,7 @@ import com.devcorp.psiconote.dtos.PsicologoDto;
 import com.devcorp.psiconote.entities.Psicologo;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PsicologoMapper {
     Psicologo toPsicologo(PsicologoDto psicologoDto);
 

@@ -13,7 +13,6 @@ public interface EstadoMapper {
     EstadoMapper instancia= Mappers.getMapper(EstadoMapper.class);
 
     @Mapping(target = "id",ignore = true)
-    Estado estadoToSaveDtoToEntity(EstadoToSaveDto estadoToSaveDto);
     EstadoDto entityToEstadoDto(Estado estado);
     Estado estadoDtoToEntity(EstadoDto estadoDto);
 }

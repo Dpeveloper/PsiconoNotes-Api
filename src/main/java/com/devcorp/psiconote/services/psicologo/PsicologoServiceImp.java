@@ -1,39 +1,43 @@
 package com.devcorp.psiconote.services.psicologo;
 
-import com.devcorp.psiconote.dtos.InformeDto;
-import com.devcorp.psiconote.dtos.PacienteDto;
-import com.devcorp.psiconote.dtos.PsicologoDto;
+import com.devcorp.psiconote.dtos.*;
+import com.devcorp.psiconote.dtos.mappers.EstadoMapper;
 import com.devcorp.psiconote.dtos.mappers.InformeMapper;
 import com.devcorp.psiconote.dtos.mappers.PacienteMapper;
 import com.devcorp.psiconote.dtos.mappers.PsicologoMapper;
-import com.devcorp.psiconote.entities.Informe;
 import com.devcorp.psiconote.entities.Paciente;
 import com.devcorp.psiconote.entities.Psicologo;
 import com.devcorp.psiconote.repository.InformeRepository;
+import com.devcorp.psiconote.repository.PacienteRepository;
 import com.devcorp.psiconote.repository.PsicologoRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Service
 public class PsicologoServiceImp implements PsicolgoService{
 
+    private final EstadoMapper estadoMapper;
     PsicologoRepository psicologoRepository;
+    PacienteRepository pacienteRepository;
     PsicologoMapper psicologoMapper;
     PacienteMapper pacienteMapper;
     InformeRepository informeRepository;
     InformeMapper informeMapper;
-    public PsicologoServiceImp(PsicologoRepository psicologoRepository, PsicologoMapper psicologoMapper,PacienteMapper pacienteMapper, InformeRepository informeRepository,InformeMapper informeMapper) {
+    public PsicologoServiceImp(PsicologoRepository psicologoRepository, PsicologoMapper psicologoMapper, PacienteMapper pacienteMapper, InformeRepository informeRepository, InformeMapper informeMapper, PacienteRepository pacienteRepository, EstadoMapper estadoMapper) {
         this.psicologoRepository = psicologoRepository;
         this.psicologoMapper = psicologoMapper;
         this.pacienteMapper = pacienteMapper;
         this.informeRepository = informeRepository;
         this.informeMapper = informeMapper;
+        this.pacienteRepository = pacienteRepository;
+        this.estadoMapper = estadoMapper;
     }
 
     @Override
-    public PsicologoDto actualizarPsicolgo(PsicologoDto psicologo, Long id) {
-        Optional<Psicologo> psicologo1 = psicologoRepository.findPsicologoById(id);
+    public PsicologoDto actualizarPsicolgo(PsicologoDto psicologo) {
+        Optional<Psicologo> psicologo1 = psicologoRepository.findPsicologoById(psicologo.id());
         if(psicologo1.isPresent()) {
             psicologo1.get().setNombre(psicologo.nombre());
             psicologo1.get().setApellido(psicologo.apellido());
@@ -47,14 +51,15 @@ public class PsicologoServiceImp implements PsicolgoService{
     }
 
     @Override
-    public PacienteDto agregarPaciente(PacienteDto pacientes) {
-        Optional<Psicologo> psicologo = psicologoRepository.findPsicologoById(pacientes.id());
+    public PacienteDto agregarPaciente(PacienteDto paciente, Long psicologoId) {
+        Optional<Psicologo> psicologo = psicologoRepository.findPsicologoById(psicologoId);
         if(psicologo.isPresent()) {
-            Paciente paciente = pacienteMapper.toPaciente(pacientes);
-            psicologo.get().setPacientes(paciente);
-            return pacienteMapper.toPacienteDto(paciente);
+
+            Paciente p = pacienteMapper.toPaciente(paciente);
+            psicologo.get().setPacientes(pacienteRepository.save(p));
+            return pacienteMapper.toPacienteDto(p);
         }
-        return pacientes;
+        return null;
     }
 
     @Override
@@ -72,7 +77,12 @@ public class PsicologoServiceImp implements PsicolgoService{
     }
 
     @Override
-    public PacienteDto actualizarEstadoPaciente(String estadoPaciente, Long id) {
+    public PacienteDto actualizarEstadoPaciente(EstadoToSaveDto estadoPaciente, Long id) {
+        Optional<Paciente> paciente = pacienteRepository.findById(id);
+        if(paciente.isPresent()) {
+            //paciente.get().setEstado(estadoMapper.estadoToSaveDtoToEntity(estadoPaciente));
+            return pacienteMapper.toPacienteDto(paciente.get());
+        }
         return null;
     }
 
@@ -102,26 +112,5 @@ public class PsicologoServiceImp implements PsicolgoService{
             }
         }
         return null;
-    }
-
-    @Override
-    public InformeDto crearInforme(InformeDto informe) {
-        return null;
-    }
-
-    @Override
-    public InformeDto actualizarInforme(InformeDto informe) {
-
-        return null;
-    }
-
-    @Override
-    public List<InformeDto> buscarTodosLosInformes() {
-        return List.of();
-    }
-
-    @Override
-    public List<InformeDto> buscarInformesDelPaciente(Long id) {
-        return List.of();
     }
 }
