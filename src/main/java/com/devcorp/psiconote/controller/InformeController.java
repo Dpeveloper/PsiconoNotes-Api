@@ -2,6 +2,7 @@ package com.devcorp.psiconote.controller;
 
 import com.devcorp.psiconote.dtos.InformeDto;
 import com.devcorp.psiconote.services.informe.InformeService;
+import com.devcorp.psiconote.services.informe.InformeServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +13,10 @@ import java.util.List;
 @RequestMapping("/api/v1/informes")
 public class InformeController {
 
-    private final InformeService informeService;
+    private final InformeServiceImp informeService;
 
     @Autowired
-    public InformeController(InformeService informeService) {
+    public InformeController(InformeServiceImp informeService) {
         this.informeService = informeService;
     }
 

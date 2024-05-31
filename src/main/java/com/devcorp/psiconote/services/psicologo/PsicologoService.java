@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public interface PsicologoService {
-
+    public PsicologoDto crearPsicologo(PsicologoDto psicologo);
     public PsicologoDto actualizarPsicologo(PsicologoDto psicologo);
     public List<PacienteDto> buscarTodosLosPacientes(Long psicologoId);
     //vuelve a revisar, ¿como se genera un informe?

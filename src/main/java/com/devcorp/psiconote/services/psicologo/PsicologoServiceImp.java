@@ -39,6 +39,13 @@ public class PsicologoServiceImp implements PsicologoService {
         this.pacienteRepository = pacienteRepository;
     }
 
+
+    @Override
+    public PsicologoDto crearPsicologo(PsicologoDto psicologo) {
+        Psicologo psicologo1 = psicologoRepository.save(psicologoMapper.toPsicologo(psicologo));
+        return psicologoMapper.toPsicologoDto(psicologo1);
+    }
+
     @Override
     public PsicologoDto actualizarPsicologo(PsicologoDto psicologoDto) {
         Psicologo psicologoExistente = psicologoRepository.findById(psicologoDto.id())

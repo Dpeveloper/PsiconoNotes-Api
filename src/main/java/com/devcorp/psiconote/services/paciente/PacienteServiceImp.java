@@ -23,27 +23,23 @@ public class PacienteServiceImp implements PacienteService {
     private final PacienteRepository pacienteRepository;
     private final PsicologoRepository psicologoRepository;
     private final PacienteMapper pacienteMapper;
-    private final EstadoMapper estadoMapper;
 
     @Autowired
     public PacienteServiceImp(PacienteMapper pacienteMapper, PacienteRepository pacienteRepository, PsicologoRepository psicologoRepository, EstadoMapper estadoMapper) {
         this.pacienteMapper = pacienteMapper;
         this.pacienteRepository = pacienteRepository;
         this.psicologoRepository = psicologoRepository;
-        this.estadoMapper = estadoMapper;
     }
 
     @Override
     public PacienteDto guardarPaciente(Long psicologoId, PacienteDto pacienteDto) {
-        Optional<Psicologo> psicologoOpt = psicologoRepository.findById(psicologoId);
-        if (psicologoOpt.isPresent()) {
-            Psicologo psicologo = psicologoOpt.get();
+        Psicologo psicologo = psicologoRepository.findById(psicologoId)
+                .orElseThrow(()->new ResourceNotFoundException("Psicologo no encontrado"));
+
             Paciente paciente = pacienteMapper.toPaciente(pacienteDto);
             paciente.setPsicologo(psicologo);
             Paciente savedPaciente = pacienteRepository.save(paciente);
             return pacienteMapper.toPacienteDto(savedPaciente);
-        }
-        throw new ResourceNotFoundException("Psicólogo no encontrado");
     }
 
     @Override
@@ -51,7 +47,6 @@ public class PacienteServiceImp implements PacienteService {
         Paciente pacienteExistente = pacienteRepository.findById(pacienteDto.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
 
-        // Actualizar los campos de la entidad existente
         pacienteExistente.setNombre(pacienteDto.nombre());
         pacienteExistente.setApellido(pacienteDto.apellido());
         pacienteExistente.setEdad(pacienteDto.edad());
@@ -62,7 +57,6 @@ public class PacienteServiceImp implements PacienteService {
         pacienteExistente.setTelEmergencia(pacienteDto.telEmergencia());
         pacienteExistente.setTelAcudiente(pacienteDto.telAcudiente());
 
-        // Guardar los cambios
         Paciente pacienteActualizado = pacienteRepository.save(pacienteExistente);
         return pacienteMapper.toPacienteDto(pacienteActualizado);
     }

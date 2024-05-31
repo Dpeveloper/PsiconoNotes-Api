@@ -9,12 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SesionRepository extends JpaRepository<Sesion,Long> {
-    @Query("SELECT s FROM Sesion s WHERE estado.nombreEstado=?1")
-    List<Sesion> findByEstado(String estado);
-    Optional<Sesion> findByFechaYHora(LocalDateTime fechaYHora);
-    @Query("SELECT s FROM Sesion s WHERE psicologo.id=?1")
-    List<Sesion> findByPsicologo(Long idPsicologo);
 
-    @Query("SELECT s FROM Sesion s WHERE paciente.id=?1")
-    List<Sesion> findByPaciente(Long idPaciente);
+    List<Sesion> findSesionByEstadoNombreEstadoAndPacienteId(String estado, Long id);
+    List<Sesion> findSesionByEstadoNombreEstadoAndPsicologoId(String estado, Long id);
+    Optional<Sesion> findByFechaYHora(LocalDateTime fechaYHora);
+    List<Sesion> findSesionByPsicologoId(Long idPsicologo);
+
+    List<Sesion> findSesionByPacienteId(Long idPaciente);
 }

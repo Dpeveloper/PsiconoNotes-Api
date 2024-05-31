@@ -29,14 +29,14 @@ public class InformeServiceImp implements InformeService {
 
     @Override
     public InformeDto registrarInforme(Long pacienteId, InformeDto informeDto) {
-        Optional<Paciente> pacienteOpt = pacienteRepository.findById(pacienteId);
-        if (pacienteOpt.isPresent()) {
+        Paciente paciente = pacienteRepository.findById(pacienteId)
+                .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
+
             Informe informe = informeMapper.toInforme(informeDto);
-            informe.setPaciente(pacienteOpt.get());
+            informe.setPaciente(paciente);
+            informe.setPsicologo(paciente.getPsicologo());
             Informe savedInforme = informeRepository.save(informe);
             return informeMapper.toInformeDto(savedInforme);
-        }
-        throw new ResourceNotFoundException("Paciente no encontrado");
     }
 
     @Override
@@ -60,9 +60,10 @@ public class InformeServiceImp implements InformeService {
 
     @Override
     public InformeDto obtenerInforme(Long pacienteId, Long informeId) {
-        Optional<Informe> informeOpt = informeRepository.findById(informeId);
-        if (informeOpt.isPresent() && informeOpt.get().getPaciente().getId().equals(pacienteId)) {
-            return informeMapper.toInformeDto(informeOpt.get());
+        Informe informe = informeRepository.findById(informeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Informe no encontrado"));
+        if (informe.getPaciente().getId().equals(pacienteId)) {
+            return informeMapper.toInformeDto(informe);
         }
         throw new ResourceNotFoundException("Informe no encontrado");
     }

@@ -4,6 +4,7 @@ import com.devcorp.psiconote.dtos.InformeDto;
 import com.devcorp.psiconote.dtos.PacienteDto;
 import com.devcorp.psiconote.dtos.PsicologoDto;
 import com.devcorp.psiconote.services.psicologo.PsicologoService;
+import com.devcorp.psiconote.services.psicologo.PsicologoServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,10 @@ import java.util.List;
 @RequestMapping("/api/v1/psicologos")
 public class PsicologoController {
 
-    private final PsicologoService psicologoService;
+    private final PsicologoServiceImp psicologoService;
 
     @Autowired
-    public PsicologoController(PsicologoService psicologoService) {
+    public PsicologoController(PsicologoServiceImp psicologoService) {
         this.psicologoService = psicologoService;
     }
 
