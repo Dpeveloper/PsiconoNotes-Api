@@ -30,5 +30,11 @@ public interface SesionMapper {
     @Mapping(target = "paciente",ignore = true)
     @Mapping(target = "psicologo",ignore = true)
     @Mapping(target = "informe",ignore = true)
-    Sesion toSaveDtoToEntity(SesionToSaveDto sesionToSaveDto);
+    default Sesion toSaveDtoToEntity(SesionToSaveDto sesionToSaveDto){
+        return Sesion.builder()
+                        .fechaYHora(LocalDateTime.parse(sesionToSaveDto.fechaYHora()))
+                        .lugarSesion(sesionToSaveDto.lugarSesion())
+                        .estado(EstadoMapper.instancia.estadoToSaveDtoToEntity(sesionToSaveDto.estado()))
+                    .build();
+    };
 }

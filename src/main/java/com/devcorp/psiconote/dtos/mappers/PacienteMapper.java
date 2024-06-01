@@ -9,10 +9,11 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface PacienteMapper {
-    PacienteMapper instancia= Mappers.getMapper(PacienteMapper.class);
+    PacienteMapper instancia = Mappers.getMapper(PacienteMapper.class);
 
-    @Mapping(target = "psicologo",ignore = true)
-    @Mapping(target = "grado",ignore = true)
-    @Mapping(target = "usuario",ignore = true)
+    @Mapping(target = "psicologo", ignore = true)
+    @Mapping(target = "grado", ignore = true)
+    @Mapping(target = "usuario", ignore = true)
     Paciente dtoToEntity(PacienteDto pacienteDto);
+    PacienteDto toPacienteDto(Paciente paciente);
 }
