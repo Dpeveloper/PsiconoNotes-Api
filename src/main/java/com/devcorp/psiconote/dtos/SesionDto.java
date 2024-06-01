@@ -1,5 +1,7 @@
 package com.devcorp.psiconote.dtos;
 
+import com.devcorp.psiconote.entities.Informe;
+
 import java.time.LocalDateTime;
 
 public record SesionDto(Long id,
@@ -7,4 +9,5 @@ public record SesionDto(Long id,
                         String lugarSesion,
                         PacienteDto paciente,
                         PsicologoDto psicologo,
-                        EstadoDto estado) {}
+                        EstadoDto estado,
+                        InformeDto informe) {}

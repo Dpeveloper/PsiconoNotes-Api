@@ -34,4 +34,9 @@ public class Sesion {
     @ManyToOne(targetEntity = Estado.class,fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinColumn(name="idEstado",referencedColumnName = "id")
     private Estado estado;
+
+    //informe dentro de la sesión
+    @OneToOne(targetEntity = Informe.class,fetch = FetchType.EAGER)
+    @JoinColumn(name="idInforme",referencedColumnName = "id")
+    private Informe informe;
 }

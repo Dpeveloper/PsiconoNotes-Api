@@ -7,5 +7,6 @@ public record InformeToSaveDto( String resumen,
                                 String respuestasEstudiante,
                                 String conclusiones,
                                 String planAccion,
-                                String notasAdicionales) {
-}
+                                String notasAdicionales,
+                                Long idPsicologo,
+                                Long idPaciente) {}

@@ -1,9 +1,16 @@
 package com.devcorp.psiconote.services.sesion;
 
+import com.devcorp.psiconote.dtos.InformeToSaveDto;
 import com.devcorp.psiconote.dtos.SesionDto;
 import com.devcorp.psiconote.dtos.SesionToSaveDto;
+import com.devcorp.psiconote.dtos.mappers.EstadoMapper;
+import com.devcorp.psiconote.dtos.mappers.PsicologoMapper;
 import com.devcorp.psiconote.dtos.mappers.SesionMapper;
+import com.devcorp.psiconote.entities.Informe;
 import com.devcorp.psiconote.entities.Sesion;
+import com.devcorp.psiconote.repository.InformeRepository;
+import com.devcorp.psiconote.repository.PacienteRepository;
+import com.devcorp.psiconote.repository.PsicologoRepository;
 import com.devcorp.psiconote.repository.SesionRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +22,25 @@ import java.util.stream.Collectors;
 public class SesionServiceImpl implements SesionService{
     private final SesionMapper sesionMapper;
     private final SesionRepository sesionRepository;
-
-    public SesionServiceImpl(SesionMapper sesionMapper, SesionRepository sesionRepository) {
+    private final PsicologoRepository psicologoRepository;
+    private final PacienteRepository pacienteRepository;
+    private final InformeRepository informeRepository;
+    public SesionServiceImpl(SesionMapper sesionMapper, SesionRepository sesionRepository,
+                             PsicologoRepository psicologoRepository, PacienteRepository pacienteRepository,
+                             InformeRepository informeRepository) {
         this.sesionMapper = sesionMapper;
         this.sesionRepository = sesionRepository;
+        this.psicologoRepository=psicologoRepository;
+        this.pacienteRepository=pacienteRepository;
+        this.informeRepository=informeRepository;
     }
 
     @Override
     public SesionDto guardarSesion(SesionToSaveDto sesionToSaveDto) {
         Sesion sesion=sesionMapper.toSaveDtoToEntity(sesionToSaveDto);
+        sesion.setPsicologo(psicologoRepository.findById(sesionToSaveDto.idPsicologo()).get());
+        sesion.setPaciente(pacienteRepository.findById(sesionToSaveDto.idPaciente()).get());
+        sesion.setEstado(EstadoMapper.instancia.estadoToSaveDtoToEntity(sesionToSaveDto.estado()));
         Sesion guardada=sesionRepository.save(sesion);
         return sesionMapper.entityToDto(sesion);
     }
@@ -79,6 +96,14 @@ public class SesionServiceImpl implements SesionService{
         List<SesionDto> sesionDtos=sesionRepository.findAll().stream()
                 .map(sesionMapper::entityToDto).collect(Collectors.toList());
         return sesionDtos;
+    }
+
+    @Override
+    public SesionDto actualizarInformeSesion(Long idSesion,  Long idInforme) {
+        Sesion sesion=sesionRepository.findById(idSesion).get();
+        sesion.setInforme(informeRepository.findById(idInforme).get());
+        Sesion sesionActualizada=sesionRepository.save(sesion);
+        return sesionMapper.entityToDto(sesionActualizada);
     }
 
     @Override

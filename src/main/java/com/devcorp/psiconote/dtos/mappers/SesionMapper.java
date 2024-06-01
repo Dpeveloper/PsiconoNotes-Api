@@ -21,12 +21,14 @@ public interface SesionMapper {
                 sesionDto.lugarSesion(),
                 PacienteMapper.instancia.dtoToEntity(sesionDto.paciente()),
                 PsicologoMapper.instancia.toPsicologo(sesionDto.psicologo()),
-                EstadoMapper.instancia.estadoDtoToEntity(sesionDto.estado()));
+                EstadoMapper.instancia.estadoDtoToEntity(sesionDto.estado()),
+                InformeMapper.instancia.dtoToEntity(sesionDto.informe()));
     };
 
     SesionDto entityToDto(Sesion sesion);
     @Mapping(target = "id",ignore = true)
     @Mapping(target = "paciente",ignore = true)
     @Mapping(target = "psicologo",ignore = true)
+    @Mapping(target = "informe",ignore = true)
     Sesion toSaveDtoToEntity(SesionToSaveDto sesionToSaveDto);
 }
