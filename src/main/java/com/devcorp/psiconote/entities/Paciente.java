@@ -1,5 +1,6 @@
 package com.devcorp.psiconote.entities;
 
+import com.devcorp.psiconote.dtos.EstadoToSaveDto;
 import jakarta.persistence.*;
 import lombok.Data;
 @Data
@@ -17,7 +18,6 @@ public class Paciente {
     private String acudiente;
     private String telEmergencia;
     private String telAcudiente;
-    private String estado;
 
     @ManyToOne
     @JoinColumn(name = "psicologo",referencedColumnName = "id")
@@ -30,4 +30,7 @@ public class Paciente {
     @OneToOne
     @JoinColumn(name = "usuario",referencedColumnName = "id")
     private Usuario usuario;
+
+    @OneToOne(mappedBy = "paciente")
+    private Informe informe;
 }

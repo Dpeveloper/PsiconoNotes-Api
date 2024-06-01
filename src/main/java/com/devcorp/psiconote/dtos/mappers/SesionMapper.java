@@ -1,6 +1,7 @@
 package com.devcorp.psiconote.dtos.mappers;
 
 import com.devcorp.psiconote.dtos.SesionDto;
+<<<<<<< HEAD
 import com.devcorp.psiconote.dtos.SesionToSaveDto;
 import com.devcorp.psiconote.entities.Sesion;
 import org.mapstruct.Mapper;
@@ -29,4 +30,14 @@ public interface SesionMapper {
     @Mapping(target = "paciente",ignore = true)
     @Mapping(target = "psicologo",ignore = true)
     Sesion toSaveDtoToEntity(SesionToSaveDto sesionToSaveDto);
+=======
+import com.devcorp.psiconote.entities.Sesion;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+public interface SesionMapper {
+    SesionDto toSesionDto(Sesion sesion);
+    Sesion toSesion(SesionDto sesionDto);
+>>>>>>> c2b5cd6c6495d6199b7e5e5780e3602de286ce03
 }

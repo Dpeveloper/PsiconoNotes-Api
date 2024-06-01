@@ -16,4 +16,8 @@ public class Estado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombreEstado;
+
+    public Estado(String nombreEstado) {
+        this.nombreEstado = nombreEstado;
+    }
 }
