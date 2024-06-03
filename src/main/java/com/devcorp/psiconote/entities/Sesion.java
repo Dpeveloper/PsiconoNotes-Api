@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,8 +20,12 @@ public class Sesion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime fechaYHora;
+    @Temporal(TemporalType.DATE)
+    private LocalDate fecha;
+    @Temporal(TemporalType.TIME)
+    private LocalTime horaInicio;
+    @Temporal(TemporalType.TIME)
+    private LocalTime horaFinal;
     private String lugarSesion;
 
     //paciente dentro de la sesión

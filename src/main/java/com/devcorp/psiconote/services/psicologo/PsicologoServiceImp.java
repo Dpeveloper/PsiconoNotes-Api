@@ -3,6 +3,7 @@ package com.devcorp.psiconote.services.psicologo;
 import com.devcorp.psiconote.dtos.InformeDto;
 import com.devcorp.psiconote.dtos.PacienteDto;
 import com.devcorp.psiconote.dtos.PsicologoDto;
+import com.devcorp.psiconote.dtos.PsicologoToSaveDto;
 import com.devcorp.psiconote.dtos.mappers.InformeMapper;
 import com.devcorp.psiconote.dtos.mappers.PacienteMapper;
 import com.devcorp.psiconote.dtos.mappers.PsicologoMapper;
@@ -41,9 +42,16 @@ public class PsicologoServiceImp implements PsicologoService {
 
 
     @Override
-    public PsicologoDto crearPsicologo(PsicologoDto psicologo) {
-        Psicologo psicologo1 = psicologoRepository.save(psicologoMapper.toPsicologo(psicologo));
-        return psicologoMapper.toPsicologoDto(psicologo1);
+    public PsicologoDto crearPsicologo(PsicologoToSaveDto psicologo) {
+        Psicologo psicologoEntidad=psicologoMapper.toSaveDtoToEntity(psicologo);
+        Psicologo psicologoGuardar=psicologoRepository.save(psicologoEntidad);
+        return psicologoMapper.toPsicologoDto(psicologoGuardar);
+    }
+
+    @Override
+    public PsicologoDto obtenerPsicologoPorId(Long id) {
+        Psicologo psicologo=psicologoRepository.findById(id).get();
+        return psicologoMapper.toPsicologoDto(psicologo);
     }
 
     @Override
@@ -68,7 +76,7 @@ public class PsicologoServiceImp implements PsicologoService {
 
         List<Paciente> pacientes = psicologo.getPacientes();
         return pacientes.stream()
-                .map(pacienteMapper::toPacienteDto)
+                .map(pacienteMapper::entityToDto)
                 .collect(Collectors.toList());
     }
 

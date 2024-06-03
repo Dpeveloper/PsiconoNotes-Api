@@ -14,7 +14,9 @@ import com.devcorp.psiconote.repository.PsicologoRepository;
 import com.devcorp.psiconote.repository.SesionRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +50,9 @@ public class SesionServiceImpl implements SesionService{
     @Override
     public SesionDto actualizarSesion(Long id, SesionToSaveDto sesionToSaveDto) {
         return sesionRepository.findById(id).map(encontrada->{
-            encontrada.setFechaYHora(sesionMapper.toSaveDtoToEntity(sesionToSaveDto).getFechaYHora());
+            encontrada.setFecha(sesionMapper.toSaveDtoToEntity(sesionToSaveDto).getFecha());
+            encontrada.setHoraInicio(sesionMapper.toSaveDtoToEntity(sesionToSaveDto).getHoraInicio());
+            encontrada.setHoraFinal(sesionMapper.toSaveDtoToEntity(sesionToSaveDto).getHoraFinal());
             encontrada.setLugarSesion(sesionToSaveDto.lugarSesion());
             encontrada.setEstado(sesionMapper.toSaveDtoToEntity(sesionToSaveDto).getEstado());
 
@@ -64,15 +68,15 @@ public class SesionServiceImpl implements SesionService{
 
     @Override
     public List<SesionDto> obtenerSesionesPorEstado(String nombreEstado) {
-        List<SesionDto> sesionDtos=sesionRepository.findByEstado(nombreEstado).stream()
+        List<SesionDto> sesionDtos=sesionRepository.findByEstado(nombreEstado.toLowerCase()).stream()
                 .map(sesionMapper::entityToDto).collect(Collectors.toList());
         return sesionDtos;
     }
 
     @Override
-    public List<SesionDto> obtenerSesionPorFechaYHora(String fechaYHora) {
-
-        List<SesionDto> sesionDtos=sesionRepository.findByFechaYHora(fechaStringALocalDateTime(fechaYHora))
+    public List<SesionDto> obtenerSesionPorFecha(String fecha) {
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        List<SesionDto> sesionDtos=sesionRepository.findByFecha(LocalDate.parse(fecha,formatter))
                 .stream().map(sesionMapper::entityToDto).collect(Collectors.toList());
         return sesionDtos;
     }
@@ -107,13 +111,16 @@ public class SesionServiceImpl implements SesionService{
     }
 
     @Override
+    public SesionDto actualizarEstadoSesion(String nombreEstado,Long idSesion) {
+        SesionDto sesionDto=sesionMapper.entityToDto(sesionRepository.updateEstadoSesion(nombreEstado,idSesion));
+        return sesionDto;
+    }
+
+    @Override
     public void eliminarSesion(Long id) {
         sesionRepository.findById(id).orElseThrow(()->new RuntimeException("Sesión no encontrada para eliminar"));
         sesionRepository.deleteById(id);
     }
 
-    private LocalDateTime fechaStringALocalDateTime(String fechaYHora){
-        LocalDateTime fechaYHoraLocal=LocalDateTime.parse(fechaYHora);
-        return fechaYHoraLocal;
-    }
+
 }

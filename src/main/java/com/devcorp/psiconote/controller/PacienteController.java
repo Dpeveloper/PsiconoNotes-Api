@@ -2,6 +2,7 @@ package com.devcorp.psiconote.controller;
 
 import com.devcorp.psiconote.dtos.EstadoDto;
 import com.devcorp.psiconote.dtos.PacienteDto;
+import com.devcorp.psiconote.dtos.PacienteToSaveDto;
 import com.devcorp.psiconote.services.paciente.PacienteService;
 import com.devcorp.psiconote.services.paciente.PacienteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class PacienteController {
         this.pacienteService = pacienteService;
     }
 
-    @PostMapping("/{psicologoId}")
-    public ResponseEntity<PacienteDto> guardarPaciente(@PathVariable Long psicologoId, @RequestBody PacienteDto pacienteDto) {
-        PacienteDto nuevoPaciente = pacienteService.guardarPaciente(psicologoId, pacienteDto);
+    @PostMapping("/guardar")
+    public ResponseEntity<PacienteDto> guardarPaciente(@RequestBody PacienteToSaveDto pacienteDto) {
+        PacienteDto nuevoPaciente = pacienteService.guardarPaciente(pacienteDto);
         return ResponseEntity.ok(nuevoPaciente);
     }
 

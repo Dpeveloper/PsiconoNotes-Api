@@ -17,5 +17,8 @@ public interface InformeMapper {
     @Mapping(target = "psicologo",ignore = true)
     @Mapping(target = "paciente",ignore = true)
     Informe toSaveDtoToEntity(InformeToSaveDto informeToSaveDto);
+
+    @Mapping(target = "psicologo",ignore = true)
+    @Mapping(target = "paciente",ignore = true)
     Informe dtoToEntity(InformeDto informeDto);
 }

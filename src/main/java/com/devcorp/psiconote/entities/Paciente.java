@@ -1,8 +1,15 @@
 package com.devcorp.psiconote.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "Pacientes")
 public class Paciente {
     @Id
@@ -27,7 +34,7 @@ public class Paciente {
     @JoinColumn(name = "grado", referencedColumnName = "id")
     private Grado grado;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "usuario",referencedColumnName = "id")
     private Usuario usuario;
 }

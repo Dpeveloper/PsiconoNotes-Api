@@ -1,10 +1,16 @@
 package com.devcorp.psiconote.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity(name = "Piscologos")
 public class Psicologo {
     @Id
@@ -16,10 +22,10 @@ public class Psicologo {
     private int edad;
     private String telefono;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "usuario_id",referencedColumnName = "id")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "psicologo")
+    @OneToMany(mappedBy = "psicologo", fetch = FetchType.EAGER)
     private List<Paciente> pacientes;
 }

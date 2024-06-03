@@ -23,6 +23,7 @@ public class EstadoServiceImpl implements EstadoService{
 
     @Override
     public EstadoDto guardarEstado(EstadoToSaveDto estado) {
+        estado.nombreEstado().toLowerCase();
         Estado estadoEntity=estadoMapper.estadoToSaveDtoToEntity(estado);
         Estado estadoGuardado=estadoRepository.save(estadoEntity);
 
@@ -46,7 +47,7 @@ public class EstadoServiceImpl implements EstadoService{
 
     @Override
     public EstadoDto buscarEstadoPorNombre(String nombreEstado) throws Exception {
-        return estadoMapper.entityToEstadoDto(estadoRepository.findByNombreEstado(nombreEstado).orElseThrow(()->new Exception("Estado no encontrado")));
+        return estadoMapper.entityToEstadoDto(estadoRepository.findByNombreEstado(nombreEstado.toLowerCase()).orElseThrow(()->new Exception("Estado no encontrado")));
     }
 
     @Override

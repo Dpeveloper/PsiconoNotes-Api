@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "")
 @RestController
 @RequestMapping("/psicoNote/v1/sesion")
 public class SesionController {
@@ -43,9 +44,9 @@ public class SesionController {
         List<SesionDto> sesionDtos=sesionService.obtenerSesionesPorEstado(nombreEstado);
         return  ResponseEntity.ok().body(sesionDtos);
     }
-    @GetMapping("/obtenerPorFechaYHora/{fechaYHora}")
-    public ResponseEntity<?> obtenerSesionPorFechaYHora(@PathVariable String fechaYHora){
-        List<SesionDto> sesionDtos=sesionService.obtenerSesionPorFechaYHora(fechaYHora);
+    @GetMapping("/obtenerPorFecha/{fechaYHora}")
+    public ResponseEntity<?> obtenerSesionPorFecha(@PathVariable String fechaYHora){
+        List<SesionDto> sesionDtos=sesionService.obtenerSesionPorFecha(fechaYHora);
         return ResponseEntity.ok().body(sesionDtos);
     }
     @GetMapping("/obtenerPorPaciente/{idPaciente}")
@@ -63,6 +64,12 @@ public class SesionController {
         SesionDto sesionDto=sesionService.actualizarInformeSesion(idSesion,idInforme);
         return ResponseEntity.ok().body(sesionDto);
     }
+    @PatchMapping("/actualizarEstado/{nombreEstado}/{id}")
+    public ResponseEntity<?> actualizarEstadoSesion(@PathVariable String nombreEstado, @PathVariable Long id){
+        SesionDto sesionDto=sesionService.actualizarEstadoSesion(nombreEstado,id);
+        return ResponseEntity.ok().body(sesionDto);
+    }
+
     @DeleteMapping("/eliminarSesion/{id}")
     public ResponseEntity<?> eliminarSesion(@PathVariable Long id){
         sesionService.eliminarSesion(id);
