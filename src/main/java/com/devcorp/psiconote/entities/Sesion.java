@@ -29,12 +29,12 @@ public class Sesion {
     private String lugarSesion;
 
     //paciente dentro de la sesión
-    @OneToOne(targetEntity = Paciente.class,fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "idPaciente",referencedColumnName = "id")
     private Paciente paciente;
 
     //psicologo dentro de la sesión
-    @OneToOne(targetEntity = Psicologo.class, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "idPsicologo",referencedColumnName = "id")
     private Psicologo psicologo;
 

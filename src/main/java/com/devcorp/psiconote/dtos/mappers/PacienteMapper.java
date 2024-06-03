@@ -17,6 +17,7 @@ public interface PacienteMapper {
     @Mapping(target = "psicologo", ignore = true)
     @Mapping(target = "grado", ignore = true)
     @Mapping(target = "usuario", ignore = true)
+    @Mapping(target = "sesiones",ignore = true)
     Paciente dtoToEntity(PacienteDto pacienteDto);
 
     PacienteDto entityToDto(Paciente paciente);
@@ -25,6 +26,7 @@ public interface PacienteMapper {
     @Mapping(target = "psicologo",ignore = true)
     @Mapping(target = "grado",ignore = true)
     @Mapping(target = "usuario",expression = "java(usuarioToSaveDtoToUsuario(paciente.usuario()))")
+    @Mapping(target = "sesiones",ignore = true)
     Paciente toSaveDtoToEntity(PacienteToSaveDto paciente);
 
     default Usuario usuarioToSaveDtoToUsuario(UsuarioToSaveDto usuario){

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -37,4 +39,7 @@ public class Paciente {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "usuario",referencedColumnName = "id")
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "paciente",fetch = FetchType.EAGER)
+    private List<Sesion> sesiones;
 }

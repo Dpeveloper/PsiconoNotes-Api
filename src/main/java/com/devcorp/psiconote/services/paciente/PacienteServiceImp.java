@@ -8,6 +8,7 @@ import com.devcorp.psiconote.dtos.mappers.PacienteMapper;
 import com.devcorp.psiconote.entities.Estado;
 import com.devcorp.psiconote.entities.Paciente;
 import com.devcorp.psiconote.entities.Psicologo;
+import com.devcorp.psiconote.entities.Sesion;
 import com.devcorp.psiconote.repository.PacienteRepository;
 import com.devcorp.psiconote.repository.PsicologoRepository;
 import com.devcorp.psiconote.services.ResourceNotFoundException;
@@ -70,6 +71,16 @@ public class PacienteServiceImp implements PacienteService {
         return pacienteRepository.findAll().stream()
                 .map(pacienteMapper::entityToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PacienteDto actualizarSesiones(Long idPaciente, Sesion sesion) {
+        Paciente paciente=pacienteRepository.findById(idPaciente).orElseThrow(()->new ResourceNotFoundException("Paciente no encontrado"));
+        List<Sesion> sesiones=paciente.getSesiones();
+        sesiones.add(sesion);
+        paciente.setSesiones(sesiones);
+        Paciente paciente1=pacienteRepository.save(paciente);
+        return pacienteMapper.entityToDto(paciente1);
     }
 
     @Override

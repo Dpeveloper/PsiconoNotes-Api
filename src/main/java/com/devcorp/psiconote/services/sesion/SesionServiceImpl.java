@@ -12,6 +12,8 @@ import com.devcorp.psiconote.repository.InformeRepository;
 import com.devcorp.psiconote.repository.PacienteRepository;
 import com.devcorp.psiconote.repository.PsicologoRepository;
 import com.devcorp.psiconote.repository.SesionRepository;
+import com.devcorp.psiconote.services.paciente.PacienteService;
+import com.devcorp.psiconote.services.psicologo.PsicologoService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,14 +29,20 @@ public class SesionServiceImpl implements SesionService{
     private final PsicologoRepository psicologoRepository;
     private final PacienteRepository pacienteRepository;
     private final InformeRepository informeRepository;
+    private final PacienteService pacienteService;
+    private final PsicologoService psicologoService;
     public SesionServiceImpl(SesionMapper sesionMapper, SesionRepository sesionRepository,
                              PsicologoRepository psicologoRepository, PacienteRepository pacienteRepository,
-                             InformeRepository informeRepository) {
+                             InformeRepository informeRepository,
+                             PacienteService pacienteService,
+                             PsicologoService psicologoService) {
         this.sesionMapper = sesionMapper;
         this.sesionRepository = sesionRepository;
         this.psicologoRepository=psicologoRepository;
         this.pacienteRepository=pacienteRepository;
         this.informeRepository=informeRepository;
+        this.pacienteService=pacienteService;
+        this.psicologoService=psicologoService;
     }
 
     @Override
@@ -44,6 +52,9 @@ public class SesionServiceImpl implements SesionService{
         sesion.setPaciente(pacienteRepository.findById(sesionToSaveDto.idPaciente()).get());
         sesion.setEstado(EstadoMapper.instancia.estadoToSaveDtoToEntity(sesionToSaveDto.estado()));
         Sesion guardada=sesionRepository.save(sesion);
+
+        psicologoService.actualizarSesiones(sesionToSaveDto.idPsicologo(),guardada);
+        pacienteService.actualizarSesiones(sesionToSaveDto.idPaciente(),guardada);
         return sesionMapper.entityToDto(sesion);
     }
 

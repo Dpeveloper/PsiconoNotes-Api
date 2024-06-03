@@ -18,6 +18,7 @@ public interface PsicologoMapper {
     PsicologoMapper instancia= Mappers.getMapper(PsicologoMapper.class);
     @Mapping(target = "usuario",ignore = true)
     @Mapping(target ="pacientes",ignore = true)
+    @Mapping(target = "sesiones",ignore = true)
     /*@Mapping(target = "pacientes",expression = "java(pacienteListDtoToEntityList(psicologoDto.pacientes()))")*/
     Psicologo toPsicologo(PsicologoDto psicologoDto);
 
@@ -35,6 +36,7 @@ public interface PsicologoMapper {
 
     @Mapping(target = "id",ignore = true)
     @Mapping(target = "pacientes",ignore = true)
+    @Mapping(target = "sesiones",ignore = true)
     default Psicologo toSaveDtoToEntity(PsicologoToSaveDto psicologo){
         return Psicologo.builder()
                 .nombre(psicologo.nombre())

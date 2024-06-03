@@ -10,6 +10,7 @@ import com.devcorp.psiconote.dtos.mappers.PsicologoMapper;
 import com.devcorp.psiconote.entities.Informe;
 import com.devcorp.psiconote.entities.Paciente;
 import com.devcorp.psiconote.entities.Psicologo;
+import com.devcorp.psiconote.entities.Sesion;
 import com.devcorp.psiconote.repository.InformeRepository;
 import com.devcorp.psiconote.repository.PacienteRepository;
 import com.devcorp.psiconote.repository.PsicologoRepository;
@@ -78,6 +79,16 @@ public class PsicologoServiceImp implements PsicologoService {
         return pacientes.stream()
                 .map(pacienteMapper::entityToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PsicologoDto actualizarSesiones(Long idPsicologo, Sesion sesion) {
+        Psicologo psicologo=psicologoRepository.findById(idPsicologo).orElseThrow(()->new ResourceNotFoundException("Psicologo no encontrado"));
+        List<Sesion> sesiones=psicologo.getSesiones();
+        sesiones.add(sesion);
+        psicologo.setSesiones(sesiones);
+        Psicologo psicologo1=psicologoRepository.save(psicologo);
+        return psicologoMapper.toPsicologoDto(psicologo1);
     }
 
     @Override
