@@ -2,6 +2,7 @@ package com.devcorp.psiconote.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "sesiones")
 public class Sesion {
@@ -34,4 +36,9 @@ public class Sesion {
     @ManyToOne(targetEntity = Estado.class,fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinColumn(name="idEstado",referencedColumnName = "id")
     private Estado estado;
+
+    //informe dentro de la sesión
+    @OneToOne(targetEntity = Informe.class,fetch = FetchType.EAGER)
+    @JoinColumn(name="idInforme",referencedColumnName = "id")
+    private Informe informe;
 }

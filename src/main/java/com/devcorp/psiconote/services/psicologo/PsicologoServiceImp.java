@@ -77,11 +77,11 @@ public class PsicologoServiceImp implements PsicologoService {
         Paciente paciente = pacienteRepository.findById(pacienteId)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
 
-        Informe informe = informeMapper.toInforme(informeDto);
+        Informe informe = informeMapper.dtoToEntity(informeDto);
         informe.setPaciente(paciente);
         informe.setPsicologo(paciente.getPsicologo());
 
         Informe informeGuardado = informeRepository.save(informe);
-        return informeMapper.toInformeDto(informeGuardado);
+        return informeMapper.entityToDto(informeGuardado);
     }
 }

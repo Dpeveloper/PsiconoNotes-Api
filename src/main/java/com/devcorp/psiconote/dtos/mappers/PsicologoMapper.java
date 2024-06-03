@@ -5,6 +5,7 @@ import com.devcorp.psiconote.entities.Psicologo;
 import org.mapstruct.Mapper;
 <<<<<<< HEAD
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 =======
 import org.mapstruct.MappingConstants;

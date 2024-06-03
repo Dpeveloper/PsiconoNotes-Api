@@ -4,7 +4,10 @@ import com.devcorp.psiconote.dtos.InformeDto;
 import com.devcorp.psiconote.dtos.InformeToSaveDto;
 import com.devcorp.psiconote.dtos.mappers.InformeMapper;
 import com.devcorp.psiconote.entities.Informe;
+import com.devcorp.psiconote.entities.Paciente;
 import com.devcorp.psiconote.repository.InformeRepository;
+import com.devcorp.psiconote.repository.PacienteRepository;
+import com.devcorp.psiconote.repository.PsicologoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,16 +16,23 @@ import java.util.stream.Collectors;
 @Service
 public class InformeServiceImpl implements InformeService{
     private final InformeMapper informeMapper;
+    private final PsicologoRepository psicologoRepository;
+    private final PacienteRepository pacienteRepository;
     private final InformeRepository informeRepository;
 
-    public InformeServiceImpl(InformeMapper informeMapper, InformeRepository informeRepository) {
+    public InformeServiceImpl(InformeMapper informeMapper, InformeRepository informeRepository,
+                              PacienteRepository pacienteRepository,PsicologoRepository psicologoRepository) {
         this.informeMapper = informeMapper;
         this.informeRepository = informeRepository;
+        this.psicologoRepository=psicologoRepository;
+        this.pacienteRepository=pacienteRepository;
     }
 
     @Override
     public InformeDto guardadInforme(InformeToSaveDto informeToSaveDto) {
         Informe informe=informeMapper.toSaveDtoToEntity(informeToSaveDto);
+        informe.setPsicologo(psicologoRepository.findById(informeToSaveDto.idPsicologo()).get());
+        informe.setPaciente(pacienteRepository.findById(informeToSaveDto.idPaciente()).get());
         Informe guardado=informeRepository.save(informe);
         return informeMapper.entityToDto(guardado);
     }

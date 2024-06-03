@@ -36,7 +36,7 @@ public class PacienteServiceImp implements PacienteService {
         Psicologo psicologo = psicologoRepository.findById(psicologoId)
                 .orElseThrow(()->new ResourceNotFoundException("Psicologo no encontrado"));
 
-            Paciente paciente = pacienteMapper.toPaciente(pacienteDto);
+            Paciente paciente = pacienteMapper.dtoToEntity(pacienteDto);
             paciente.setPsicologo(psicologo);
             Paciente savedPaciente = pacienteRepository.save(paciente);
             return pacienteMapper.toPacienteDto(savedPaciente);
