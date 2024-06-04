@@ -69,6 +69,12 @@ public class PacienteServiceImp implements PacienteService {
     }
 
     @Override
+    public List<PacienteDto> buscarPacientePorNombre(String nombre) {
+        List<Paciente> pacientes = pacienteRepository.findByNombre(nombre);
+        return pacientes.stream().map(pacienteMapper::toPacienteDto).collect(Collectors.toList());
+    }
+
+    @Override
     public List<PacienteDto> buscarPacientes() {
         return pacienteRepository.findAll().stream()
                 .map(pacienteMapper::toPacienteDto)
@@ -76,17 +82,19 @@ public class PacienteServiceImp implements PacienteService {
     }
 
     @Override
-    public PacienteDto actualizarEstado(Long id, EstadoDto estadoDto) {
-        /*Paciente pacienteExistente = pacienteRepository.findById(id)
+    public List<PacienteDto> buscarPacientesActivos() {
+        List<Paciente> pacientes = pacienteRepository.findByEstado("Activo");
+        return pacientes.stream().map(pacienteMapper::toPacienteDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public PacienteDto actualizarEstado(Long id, String estado) {
+        Paciente pacienteExistente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
 
-        Estado nuevoEstado = estadoMapper.toEntity(estadoDto);
-        pacienteExistente.g(nuevoEstado);
+        pacienteExistente.setEstado(estado);
 
         Paciente pacienteActualizado = pacienteRepository.save(pacienteExistente);
         return pacienteMapper.toPacienteDto(pacienteActualizado);
-
-         */
-        return null;
     }
 }

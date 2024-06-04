@@ -45,6 +45,23 @@ public class PacienteController {
         return ResponseEntity.ok(pacientes);
     }
 
+    @GetMapping("/buscarPorNombre")
+    public ResponseEntity<List<PacienteDto>> buscarPorNombre(@RequestParam String nombre) {
+        List<PacienteDto> pacienteDtos = pacienteService.buscarPacientePorNombre(nombre);
+        return ResponseEntity.ok(pacienteDtos);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PacienteDto>> buscarActivos(){
+        List<PacienteDto> pacienteDtos = pacienteService.buscarPacientesActivos();
+        return ResponseEntity.ok(pacienteDtos);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PacienteDto> actualizarEstado(@PathVariable Long id, @RequestParam String estado) {
+        PacienteDto pacienteDto= pacienteService.actualizarEstado(id,estado);
+        return ResponseEntity.ok(pacienteDto);
+    }
     /*@PutMapping("/{id}/estado")
     public ResponseEntity<PacienteDto> actualizarEstado(@PathVariable Long id, @RequestBody EstadoDto estadoDto) {
         PacienteDto pacienteActualizado = pacienteService.actualizarEstado(id, estadoDto);

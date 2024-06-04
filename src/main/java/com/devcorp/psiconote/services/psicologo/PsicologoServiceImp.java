@@ -73,6 +73,12 @@ public class PsicologoServiceImp implements PsicologoService {
     }
 
     @Override
+    public List<PsicologoDto> buscarPsicologoPorNombre(String nombrePsicologo) {
+        List<Psicologo> psicologos = psicologoRepository.findByNombre(nombrePsicologo);
+        return psicologos.stream().map(psicologoMapper::toPsicologoDto).collect(Collectors.toList());
+    }
+
+    @Override
     public InformeDto generarInformePaciente(Long pacienteId, InformeDto informeDto) {
         Paciente paciente = pacienteRepository.findById(pacienteId)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));

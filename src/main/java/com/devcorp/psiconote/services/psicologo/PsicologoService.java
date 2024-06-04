@@ -11,7 +11,7 @@ public interface PsicologoService {
     public PsicologoDto crearPsicologo(PsicologoDto psicologo);
     public PsicologoDto actualizarPsicologo(PsicologoDto psicologo);
     public List<PacienteDto> buscarTodosLosPacientes(Long psicologoId);
-    //vuelve a revisar, ¿como se genera un informe?
+    public List<PsicologoDto> buscarPsicologoPorNombre(String nombrePsicologo);
     public InformeDto generarInformePaciente(Long pacienteId, InformeDto informe);
 
 }

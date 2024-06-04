@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PsicologoRepository extends JpaRepository<Psicologo, Long> {
     public Psicologo save(Psicologo psicologo);
-    public Optional<Psicologo> findByNombre(String name);
+    public List<Psicologo> findByNombre(String name);
     public Optional<Psicologo> findPsicologoById(Long id);
     public List<Psicologo> findAll();
     public void deleteById(Long id);

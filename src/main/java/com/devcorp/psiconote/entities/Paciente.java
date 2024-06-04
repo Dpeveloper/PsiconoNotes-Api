@@ -18,6 +18,7 @@ public class Paciente {
     private String acudiente;
     private String telEmergencia;
     private String telAcudiente;
+    private String estado;
 
     @ManyToOne
     @JoinColumn(name = "psicologo",referencedColumnName = "id")

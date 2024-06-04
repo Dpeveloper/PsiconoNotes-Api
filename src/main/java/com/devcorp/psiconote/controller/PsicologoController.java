@@ -38,9 +38,16 @@ public class PsicologoController {
         return ResponseEntity.ok(pacientes);
     }
 
+    @GetMapping("")
+    public ResponseEntity<List<PsicologoDto>> buscarPorNombre(@PathVariable String nombrePsicologo) {
+        List<PsicologoDto> psicologoEncontrado = psicologoService.buscarPsicologoPorNombre(nombrePsicologo);
+        return ResponseEntity.ok(psicologoEncontrado);
+    }
+
     @PostMapping("/{id}/informes")
     public ResponseEntity<InformeDto> generarInformePaciente(@PathVariable Long id, @RequestBody InformeDto informeDto) {
         InformeDto informeGenerado = psicologoService.generarInformePaciente(id, informeDto);
         return ResponseEntity.ok(informeGenerado);
     }
+
 }

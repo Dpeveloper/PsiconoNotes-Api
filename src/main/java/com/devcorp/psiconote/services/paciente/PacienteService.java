@@ -9,7 +9,9 @@ public interface PacienteService {
     PacienteDto guardarPaciente(Long psicologo,PacienteDto pacienteDto);
     PacienteDto actualizarPaciente(PacienteDto pacienteDto);
     PacienteDto buscarPacientePorId(Long id);
+    List<PacienteDto> buscarPacientePorNombre(String nombre);
     List<PacienteDto> buscarPacientes();
-    PacienteDto actualizarEstado(Long id, EstadoDto estadoDto);
+    List<PacienteDto> buscarPacientesActivos();
+    PacienteDto actualizarEstado(Long id, String estado);
 
 }
