@@ -5,8 +5,6 @@ import com.devcorp.psiconote.dtos.InformeDto;
 import com.devcorp.psiconote.dtos.InformeToSaveDto;
 import com.devcorp.psiconote.services.informe.InformeService;
 =======
-import com.devcorp.psiconote.services.informe.InformeService;
-import com.devcorp.psiconote.services.informe.InformeServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 >>>>>>> c2b5cd6c6495d6199b7e5e5780e3602de286ce03
 import org.springframework.http.ResponseEntity;

@@ -14,6 +14,8 @@ public interface SesionRepository extends JpaRepository<Sesion,Long> {
     List<Sesion> findSesionByEstadoNombreEstadoAndPsicologoId(String estado, Long id);
     Optional<Sesion> findByFechaYHora(LocalDateTime fechaYHora);
     List<Sesion> findSesionByPsicologoId(Long idPsicologo);
-
+    List<Sesion> findByEstado(String nombreEstado);
+    List<Sesion> findByPsicologo(Long idPsicologo);
+    List<Sesion> findByPaciente(Long idPaciente);
     List<Sesion> findSesionByPacienteId(Long idPaciente);
 }

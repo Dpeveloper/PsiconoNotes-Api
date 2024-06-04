@@ -21,7 +21,11 @@ public class PsicologoController {
     public PsicologoController(PsicologoServiceImp psicologoService) {
         this.psicologoService = psicologoService;
     }
-
+    @PostMapping
+    public ResponseEntity<PsicologoDto> guardarPsicologo(@RequestBody PsicologoDto psicologoDto) {
+        PsicologoDto guardado = psicologoService.crearPsicologo(psicologoDto);
+        return ResponseEntity.ok(guardado);
+    }
     @PutMapping("/{id}")
     public ResponseEntity<PsicologoDto> actualizarPsicologo(@RequestBody PsicologoDto psicologoDto) {
         PsicologoDto actualizado = psicologoService.actualizarPsicologo(psicologoDto);

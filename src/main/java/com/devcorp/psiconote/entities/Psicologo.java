@@ -20,7 +20,7 @@ public class Psicologo {
     @JoinColumn(name = "usuario_id",referencedColumnName = "id")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "psicologo")
+    @OneToMany(mappedBy = "psicologo",cascade = CascadeType.PERSIST)
     private List<Paciente> pacientes;
 
     public void setPacientes(Paciente pacientes) {
