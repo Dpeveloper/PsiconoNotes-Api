@@ -32,13 +32,19 @@ public class PsicologoController {
         return ResponseEntity.ok(actualizado);
     }
 
-    @GetMapping("/{id}/pacientes")
+    @GetMapping
+    public ResponseEntity<List<PsicologoDto>> listarPsicologos() {
+        List<PsicologoDto> psicologoDtos = psicologoService.buscarTodosLosPsicologos();
+        return ResponseEntity.ok(psicologoDtos);
+    }
+
+    @GetMapping("/{id}")
     public ResponseEntity<List<PacienteDto>> buscarTodosLosPacientes(@PathVariable Long id) {
         List<PacienteDto> pacientes = psicologoService.buscarTodosLosPacientes(id);
         return ResponseEntity.ok(pacientes);
     }
 
-    @GetMapping("")
+    @GetMapping("/{nombrePsicologo}")
     public ResponseEntity<List<PsicologoDto>> buscarPorNombre(@PathVariable String nombrePsicologo) {
         List<PsicologoDto> psicologoEncontrado = psicologoService.buscarPsicologoPorNombre(nombrePsicologo);
         return ResponseEntity.ok(psicologoEncontrado);

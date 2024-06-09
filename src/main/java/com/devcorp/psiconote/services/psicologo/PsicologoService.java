@@ -10,6 +10,7 @@ import java.util.List;
 public interface PsicologoService {
     public PsicologoDto crearPsicologo(PsicologoDto psicologo);
     public PsicologoDto actualizarPsicologo(PsicologoDto psicologo);
+    public List<PsicologoDto> buscarTodosLosPsicologos();
     public List<PacienteDto> buscarTodosLosPacientes(Long psicologoId);
     public List<PsicologoDto> buscarPsicologoPorNombre(String nombrePsicologo);
     public InformeDto generarInformePaciente(Long pacienteId, InformeDto informe);
