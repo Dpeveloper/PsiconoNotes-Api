@@ -21,6 +21,7 @@ public class Sesion {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime fechaYHora;
     private String lugarSesion;
+    private String notificacion;
 
     //paciente dentro de la sesión
     @OneToOne(targetEntity = Paciente.class,fetch = FetchType.EAGER)

@@ -19,6 +19,7 @@ public interface SesionMapper {
         return new Sesion(sesionDto.id(),
                 LocalDateTime.parse(sesionDto.fechaYHora()),
                 sesionDto.lugarSesion(),
+                sesionDto.notificacion(),
                 PacienteMapper.instancia.dtoToEntity(sesionDto.paciente()),
                 PsicologoMapper.instancia.toPsicologo(sesionDto.psicologo()),
                 EstadoMapper.instancia.estadoDtoToEntity(sesionDto.estado()),

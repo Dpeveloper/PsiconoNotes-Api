@@ -1,8 +1,6 @@
 package com.devcorp.psiconote.controller;
 
-import com.devcorp.psiconote.dtos.EstadoDto;
 import com.devcorp.psiconote.dtos.PacienteDto;
-import com.devcorp.psiconote.services.paciente.PacienteService;
 import com.devcorp.psiconote.services.paciente.PacienteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

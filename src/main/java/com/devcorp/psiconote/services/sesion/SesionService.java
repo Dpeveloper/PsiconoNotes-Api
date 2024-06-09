@@ -5,6 +5,8 @@ import com.devcorp.psiconote.dtos.SesionDto;
 import com.devcorp.psiconote.dtos.SesionToSaveDto;
 import com.devcorp.psiconote.entities.Informe;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -19,4 +21,10 @@ public interface SesionService {
     List<SesionDto> obtenerSesiones();
     SesionDto actualizarInformeSesion(Long idSesion,Long idInforme);
     void eliminarSesion(Long id);
+    SesionDto reagendarSesion(Long idSesion, LocalDateTime fecha, String lugarSesion);
+    SesionDto cancelarSesion(Long id, String notificacion);
+
+    Object solicitarCancelarSesion(Long id, String notificacion);
+
+    Object solicitarReagendarSesion(Long id, String notificacion);
 }

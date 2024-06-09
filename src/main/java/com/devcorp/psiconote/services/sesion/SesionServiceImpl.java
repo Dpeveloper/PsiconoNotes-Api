@@ -6,14 +6,15 @@ import com.devcorp.psiconote.dtos.SesionToSaveDto;
 import com.devcorp.psiconote.dtos.mappers.EstadoMapper;
 import com.devcorp.psiconote.dtos.mappers.PsicologoMapper;
 import com.devcorp.psiconote.dtos.mappers.SesionMapper;
+import com.devcorp.psiconote.entities.Estado;
 import com.devcorp.psiconote.entities.Informe;
 import com.devcorp.psiconote.entities.Sesion;
-import com.devcorp.psiconote.repository.InformeRepository;
-import com.devcorp.psiconote.repository.PacienteRepository;
-import com.devcorp.psiconote.repository.PsicologoRepository;
-import com.devcorp.psiconote.repository.SesionRepository;
+import com.devcorp.psiconote.entities.SesionCancelada;
+import com.devcorp.psiconote.repository.*;
+import com.devcorp.psiconote.services.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,14 +26,17 @@ public class SesionServiceImpl implements SesionService{
     private final PsicologoRepository psicologoRepository;
     private final PacienteRepository pacienteRepository;
     private final InformeRepository informeRepository;
+    private final SesionCanceladaRepository sesionCanceladaRepository;
+
     public SesionServiceImpl(SesionMapper sesionMapper, SesionRepository sesionRepository,
                              PsicologoRepository psicologoRepository, PacienteRepository pacienteRepository,
-                             InformeRepository informeRepository) {
+                             InformeRepository informeRepository, SesionCanceladaRepository sesionCanceladaRepository) {
         this.sesionMapper = sesionMapper;
         this.sesionRepository = sesionRepository;
         this.psicologoRepository=psicologoRepository;
         this.pacienteRepository=pacienteRepository;
         this.informeRepository=informeRepository;
+        this.sesionCanceladaRepository = sesionCanceladaRepository;
     }
 
     @Override
@@ -112,8 +116,64 @@ public class SesionServiceImpl implements SesionService{
         sesionRepository.deleteById(id);
     }
 
+    @Override
+    public SesionDto reagendarSesion(Long idSesion, LocalDateTime fecha, String lugarSesion) {
+        Sesion sesion = sesionRepository.findById(idSesion)
+                .orElseThrow(() -> new RuntimeException("Sesión no encontrada para reagendar"));
+
+        sesion.setLugarSesion(lugarSesion);
+
+        if(sesionRepository.findByFechaYHora(fecha).isEmpty()){
+            sesion.setFechaYHora(fecha);
+            sesion.setEstado(new Estado("Agendada"));
+            return sesionMapper.entityToDto(sesionRepository.save(sesion));
+        }
+        throw  new RuntimeException("El psicolog ya tiene una sesión a esa hora");
+    }
+
+    @Override
+    public SesionDto cancelarSesion(Long sesionId, String notificacion) {
+        Sesion sesion = sesionRepository.findById(sesionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Sesion no encontrado"));
+
+        sesion.setEstado(new Estado("Cancelado"));
+        sesion.setNotificacion(notificacion);
+        Sesion sesionCancelada = sesionRepository.save(sesion);
+
+        sesionCanceladaRepository.save(new SesionCancelada(null,
+                sesion.getFechaYHora(),
+                sesion.getLugarSesion(),
+                sesion.getPaciente(),
+                sesion.getPsicologo(),
+                sesion.getEstado(),
+                sesion.getNotificacion()));
+
+        return sesionMapper.entityToDto(sesionCancelada);
+
+    }
+
+    @Override
+    public Object solicitarCancelarSesion(Long id, String notificacion) {
+        Sesion sesion = sesionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sesión no encontrada"));
+
+        sesion.setNotificacion(notificacion);
+        return sesionRepository.save(sesion);
+    }
+
+    @Override
+    public Object solicitarReagendarSesion(Long id, String notificacion) {
+        Sesion sesion = sesionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sesión no encontrada"));
+
+        sesion.setNotificacion(notificacion);
+        return sesionRepository.save(sesion);
+    }
+
     private LocalDateTime fechaStringALocalDateTime(String fechaYHora){
         LocalDateTime fechaYHoraLocal=LocalDateTime.parse(fechaYHora);
         return fechaYHoraLocal;
     }
+
+
 }

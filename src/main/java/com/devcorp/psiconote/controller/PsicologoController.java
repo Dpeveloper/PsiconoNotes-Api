@@ -3,7 +3,6 @@ package com.devcorp.psiconote.controller;
 import com.devcorp.psiconote.dtos.InformeDto;
 import com.devcorp.psiconote.dtos.PacienteDto;
 import com.devcorp.psiconote.dtos.PsicologoDto;
-import com.devcorp.psiconote.services.psicologo.PsicologoService;
 import com.devcorp.psiconote.services.psicologo.PsicologoServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
