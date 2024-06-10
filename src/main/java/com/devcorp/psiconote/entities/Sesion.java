@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,18 +20,22 @@ public class Sesion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime fechaYHora;
+    @Temporal(TemporalType.DATE)
+    private LocalDate fecha;
+    @Temporal(TemporalType.TIME)
+    private LocalTime horaInicio;
+    @Temporal(TemporalType.TIME)
+    private LocalTime horaFinal;
     private String lugarSesion;
     private String notificacion;
 
     //paciente dentro de la sesión
-    @OneToOne(targetEntity = Paciente.class,fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "idPaciente",referencedColumnName = "id")
     private Paciente paciente;
 
     //psicologo dentro de la sesión
-    @OneToOne(targetEntity = Psicologo.class, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "idPsicologo",referencedColumnName = "id")
     private Psicologo psicologo;
 

@@ -3,12 +3,14 @@ package com.devcorp.psiconote.services.psicologo;
 import com.devcorp.psiconote.dtos.InformeDto;
 import com.devcorp.psiconote.dtos.PacienteDto;
 import com.devcorp.psiconote.dtos.PsicologoDto;
+import com.devcorp.psiconote.dtos.PsicologoToSaveDto;
 import com.devcorp.psiconote.dtos.mappers.InformeMapper;
 import com.devcorp.psiconote.dtos.mappers.PacienteMapper;
 import com.devcorp.psiconote.dtos.mappers.PsicologoMapper;
 import com.devcorp.psiconote.entities.Informe;
 import com.devcorp.psiconote.entities.Paciente;
 import com.devcorp.psiconote.entities.Psicologo;
+import com.devcorp.psiconote.entities.Sesion;
 import com.devcorp.psiconote.repository.InformeRepository;
 import com.devcorp.psiconote.repository.PacienteRepository;
 import com.devcorp.psiconote.repository.PsicologoRepository;
@@ -41,9 +43,16 @@ public class PsicologoServiceImp implements PsicologoService {
 
 
     @Override
-    public PsicologoDto crearPsicologo(PsicologoDto psicologo) {
-        Psicologo psicologo1 = psicologoRepository.save(psicologoMapper.toPsicologo(psicologo));
-        return psicologoMapper.toPsicologoDto(psicologo1);
+    public PsicologoDto crearPsicologo(PsicologoToSaveDto psicologo) {
+        Psicologo psicologoEntidad=psicologoMapper.toSaveDtoToEntity(psicologo);
+        Psicologo psicologoGuardar=psicologoRepository.save(psicologoEntidad);
+        return psicologoMapper.toPsicologoDto(psicologoGuardar);
+    }
+
+    @Override
+    public PsicologoDto obtenerPsicologoPorId(Long id) {
+        Psicologo psicologo=psicologoRepository.findById(id).get();
+        return psicologoMapper.toPsicologoDto(psicologo);
     }
 
     @Override
@@ -74,11 +83,19 @@ public class PsicologoServiceImp implements PsicologoService {
 
         List<Paciente> pacientes = psicologo.getPacientes();
         return pacientes.stream()
-                .map(pacienteMapper::toPacienteDto)
+                .map(pacienteMapper::entityToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
+    public PsicologoDto actualizarSesiones(Long idPsicologo, Sesion sesion) {
+        Psicologo psicologo=psicologoRepository.findById(idPsicologo).orElseThrow(()->new ResourceNotFoundException("Psicologo no encontrado"));
+        List<Sesion> sesiones=psicologo.getSesiones();
+        sesiones.add(sesion);
+        psicologo.setSesiones(sesiones);
+        Psicologo psicologo1=psicologoRepository.save(psicologo);
+        return psicologoMapper.toPsicologoDto(psicologo1);
+
     public List<PsicologoDto> buscarPsicologoPorNombre(String nombrePsicologo) {
         List<Psicologo> psicologos = psicologoRepository.findByNombre(nombrePsicologo);
         return psicologos.stream().map(psicologoMapper::toPsicologoDto).collect(Collectors.toList());

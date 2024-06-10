@@ -8,7 +8,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface SesionMapper {
@@ -17,7 +20,9 @@ public interface SesionMapper {
 
     default Sesion dtoToEntity(SesionDto sesionDto){
         return new Sesion(sesionDto.id(),
-                LocalDateTime.parse(sesionDto.fechaYHora()),
+                sesionDto.fecha(),
+                sesionDto.horaInicio(),
+                sesionDto.horaFinal(),
                 sesionDto.lugarSesion(),
                 sesionDto.notificacion(),
                 PacienteMapper.instancia.dtoToEntity(sesionDto.paciente()),
@@ -32,8 +37,12 @@ public interface SesionMapper {
     @Mapping(target = "psicologo",ignore = true)
     @Mapping(target = "informe",ignore = true)
     default Sesion toSaveDtoToEntity(SesionToSaveDto sesionToSaveDto){
+        DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter timeFormatter=DateTimeFormatter.ofPattern("HH:mm:ss");
         return Sesion.builder()
-                        .fechaYHora(LocalDateTime.parse(sesionToSaveDto.fechaYHora()))
+                        .fecha(LocalDate.parse(sesionToSaveDto.fecha(),dateTimeFormatter))
+                        .horaInicio(LocalTime.parse(sesionToSaveDto.horaInicio(),timeFormatter))
+                        .horaFinal(LocalTime.parse(sesionToSaveDto.horaFinal(),timeFormatter))
                         .lugarSesion(sesionToSaveDto.lugarSesion())
                         .estado(EstadoMapper.instancia.estadoToSaveDtoToEntity(sesionToSaveDto.estado()))
                     .build();

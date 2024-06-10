@@ -15,11 +15,12 @@ public interface SesionService {
     SesionDto actualizarSesion(Long id, SesionToSaveDto sesionToSaveDto);
     SesionDto obtenerSesionPorId(Long id);
     List<SesionDto> obtenerSesionesPorEstado(String nombreEstado);
-    List<SesionDto> obtenerSesionPorFechaYHora(String fechaYHora);
+    List<SesionDto> obtenerSesionPorFecha(String fecha);
     List<SesionDto> obtenerSesionesPorPsicologo(Long idPsicologo);
     List<SesionDto> obtenerSesionesPorPaciente(Long idPaciente);
     List<SesionDto> obtenerSesiones();
     SesionDto actualizarInformeSesion(Long idSesion,Long idInforme);
+    SesionDto actualizarEstadoSesion(String nombreEstado, Long idSesion);
     void eliminarSesion(Long id);
     SesionDto reagendarSesion(Long idSesion, LocalDateTime fecha, String lugarSesion);
     SesionDto cancelarSesion(Long id, String notificacion);

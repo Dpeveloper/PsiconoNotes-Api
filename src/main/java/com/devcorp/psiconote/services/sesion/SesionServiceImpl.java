@@ -9,13 +9,18 @@ import com.devcorp.psiconote.dtos.mappers.SesionMapper;
 import com.devcorp.psiconote.entities.Estado;
 import com.devcorp.psiconote.entities.Informe;
 import com.devcorp.psiconote.entities.Sesion;
-import com.devcorp.psiconote.entities.SesionCancelada;
-import com.devcorp.psiconote.repository.*;
-import com.devcorp.psiconote.services.ResourceNotFoundException;
+import com.devcorp.psiconote.repository.InformeRepository;
+import com.devcorp.psiconote.repository.PacienteRepository;
+import com.devcorp.psiconote.repository.PsicologoRepository;
+import com.devcorp.psiconote.repository.SesionRepository;
+import com.devcorp.psiconote.services.paciente.PacienteService;
+import com.devcorp.psiconote.services.psicologo.PsicologoService;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,17 +31,20 @@ public class SesionServiceImpl implements SesionService{
     private final PsicologoRepository psicologoRepository;
     private final PacienteRepository pacienteRepository;
     private final InformeRepository informeRepository;
-    private final SesionCanceladaRepository sesionCanceladaRepository;
-
+    private final PacienteService pacienteService;
+    private final PsicologoService psicologoService;
     public SesionServiceImpl(SesionMapper sesionMapper, SesionRepository sesionRepository,
                              PsicologoRepository psicologoRepository, PacienteRepository pacienteRepository,
-                             InformeRepository informeRepository, SesionCanceladaRepository sesionCanceladaRepository) {
+                             InformeRepository informeRepository,
+                             PacienteService pacienteService,
+                             PsicologoService psicologoService) {
         this.sesionMapper = sesionMapper;
         this.sesionRepository = sesionRepository;
         this.psicologoRepository=psicologoRepository;
         this.pacienteRepository=pacienteRepository;
         this.informeRepository=informeRepository;
-        this.sesionCanceladaRepository = sesionCanceladaRepository;
+        this.pacienteService=pacienteService;
+        this.psicologoService=psicologoService;
     }
 
     @Override
@@ -46,13 +54,18 @@ public class SesionServiceImpl implements SesionService{
         sesion.setPaciente(pacienteRepository.findById(sesionToSaveDto.idPaciente()).get());
         sesion.setEstado(EstadoMapper.instancia.estadoToSaveDtoToEntity(sesionToSaveDto.estado()));
         Sesion guardada=sesionRepository.save(sesion);
+
+        psicologoService.actualizarSesiones(sesionToSaveDto.idPsicologo(),guardada);
+        pacienteService.actualizarSesiones(sesionToSaveDto.idPaciente(),guardada);
         return sesionMapper.entityToDto(sesion);
     }
 
     @Override
     public SesionDto actualizarSesion(Long id, SesionToSaveDto sesionToSaveDto) {
         return sesionRepository.findById(id).map(encontrada->{
-            encontrada.setFechaYHora(sesionMapper.toSaveDtoToEntity(sesionToSaveDto).getFechaYHora());
+            encontrada.setFecha(sesionMapper.toSaveDtoToEntity(sesionToSaveDto).getFecha());
+            encontrada.setHoraInicio(sesionMapper.toSaveDtoToEntity(sesionToSaveDto).getHoraInicio());
+            encontrada.setHoraFinal(sesionMapper.toSaveDtoToEntity(sesionToSaveDto).getHoraFinal());
             encontrada.setLugarSesion(sesionToSaveDto.lugarSesion());
             encontrada.setEstado(sesionMapper.toSaveDtoToEntity(sesionToSaveDto).getEstado());
 
@@ -68,15 +81,15 @@ public class SesionServiceImpl implements SesionService{
 
     @Override
     public List<SesionDto> obtenerSesionesPorEstado(String nombreEstado) {
-        List<SesionDto> sesionDtos=sesionRepository.findByEstado(nombreEstado).stream()
+        List<SesionDto> sesionDtos=sesionRepository.findByEstado(nombreEstado.toLowerCase()).stream()
                 .map(sesionMapper::entityToDto).collect(Collectors.toList());
         return sesionDtos;
     }
 
     @Override
-    public List<SesionDto> obtenerSesionPorFechaYHora(String fechaYHora) {
-
-        List<SesionDto> sesionDtos=sesionRepository.findByFechaYHora(fechaStringALocalDateTime(fechaYHora))
+    public List<SesionDto> obtenerSesionPorFecha(String fecha) {
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        List<SesionDto> sesionDtos=sesionRepository.findByFecha(LocalDate.parse(fecha,formatter))
                 .stream().map(sesionMapper::entityToDto).collect(Collectors.toList());
         return sesionDtos;
     }
@@ -108,6 +121,12 @@ public class SesionServiceImpl implements SesionService{
         sesion.setInforme(informeRepository.findById(idInforme).get());
         Sesion sesionActualizada=sesionRepository.save(sesion);
         return sesionMapper.entityToDto(sesionActualizada);
+    }
+
+    @Override
+    public SesionDto actualizarEstadoSesion(String nombreEstado,Long idSesion) {
+        SesionDto sesionDto=sesionMapper.entityToDto(sesionRepository.updateEstadoSesion(nombreEstado,idSesion));
+        return sesionDto;
     }
 
     @Override
@@ -174,6 +193,5 @@ public class SesionServiceImpl implements SesionService{
         LocalDateTime fechaYHoraLocal=LocalDateTime.parse(fechaYHora);
         return fechaYHoraLocal;
     }
-
 
 }

@@ -2,11 +2,13 @@ package com.devcorp.psiconote.services.paciente;
 
 import com.devcorp.psiconote.dtos.EstadoDto;
 import com.devcorp.psiconote.dtos.PacienteDto;
+import com.devcorp.psiconote.dtos.PacienteToSaveDto;
 import com.devcorp.psiconote.dtos.mappers.EstadoMapper;
 import com.devcorp.psiconote.dtos.mappers.PacienteMapper;
 import com.devcorp.psiconote.entities.Estado;
 import com.devcorp.psiconote.entities.Paciente;
 import com.devcorp.psiconote.entities.Psicologo;
+import com.devcorp.psiconote.entities.Sesion;
 import com.devcorp.psiconote.repository.PacienteRepository;
 import com.devcorp.psiconote.repository.PsicologoRepository;
 import com.devcorp.psiconote.services.ResourceNotFoundException;
@@ -32,14 +34,10 @@ public class PacienteServiceImp implements PacienteService {
     }
 
     @Override
-    public PacienteDto guardarPaciente(Long psicologoId, PacienteDto pacienteDto) {
-        Psicologo psicologo = psicologoRepository.findById(psicologoId)
-                .orElseThrow(()->new ResourceNotFoundException("Psicologo no encontrado"));
-
-            Paciente paciente = pacienteMapper.dtoToEntity(pacienteDto);
-            paciente.setPsicologo(psicologo);
-            Paciente savedPaciente = pacienteRepository.save(paciente);
-            return pacienteMapper.toPacienteDto(savedPaciente);
+    public PacienteDto guardarPaciente(PacienteToSaveDto pacienteDto) {
+        Paciente paciente=pacienteMapper.toSaveDtoToEntity(pacienteDto);
+        Paciente guardado=pacienteRepository.save(paciente);
+        return pacienteMapper.entityToDto(guardado);
     }
 
     @Override
@@ -58,14 +56,14 @@ public class PacienteServiceImp implements PacienteService {
         pacienteExistente.setTelAcudiente(pacienteDto.telAcudiente());
 
         Paciente pacienteActualizado = pacienteRepository.save(pacienteExistente);
-        return pacienteMapper.toPacienteDto(pacienteActualizado);
+        return pacienteMapper.entityToDto(pacienteActualizado);
     }
 
     @Override
     public PacienteDto buscarPacientePorId(Long id) {
         Paciente paciente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
-        return pacienteMapper.toPacienteDto(paciente);
+        return pacienteMapper.entityToDto(paciente);
     }
 
     @Override
@@ -77,11 +75,20 @@ public class PacienteServiceImp implements PacienteService {
     @Override
     public List<PacienteDto> buscarPacientes() {
         return pacienteRepository.findAll().stream()
-                .map(pacienteMapper::toPacienteDto)
+                .map(pacienteMapper::entityToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
+    public PacienteDto actualizarSesiones(Long idPaciente, Sesion sesion) {
+        Paciente paciente=pacienteRepository.findById(idPaciente).orElseThrow(()->new ResourceNotFoundException("Paciente no encontrado"));
+        List<Sesion> sesiones=paciente.getSesiones();
+        sesiones.add(sesion);
+        paciente.setSesiones(sesiones);
+        Paciente paciente1=pacienteRepository.save(paciente);
+        return pacienteMapper.entityToDto(paciente1);
+    }
+
     public List<PacienteDto> buscarPacientesActivos() {
         List<Paciente> pacientes = pacienteRepository.findByEstado("Activo");
         return pacientes.stream().map(pacienteMapper::toPacienteDto).collect(Collectors.toList());
