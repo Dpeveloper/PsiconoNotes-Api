@@ -6,4 +6,4 @@ import java.util.List;
 public record UsuarioToSaveDto(String email,
                                String username,
                                String password,
-                               List<Long> roles) {}
+                               List<RolToSaveDto> roles) {}

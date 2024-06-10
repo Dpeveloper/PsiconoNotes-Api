@@ -6,8 +6,10 @@ import com.devcorp.psiconote.dtos.PsicologoDto;
 import com.devcorp.psiconote.dtos.PsicologoToSaveDto;
 import com.devcorp.psiconote.services.psicologo.PsicologoService;
 import com.devcorp.psiconote.services.psicologo.PsicologoServiceImp;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,11 +27,13 @@ public class PsicologoController {
     }
 
     @PostMapping("/guardar")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> guardarPsicologo(@RequestBody PsicologoToSaveDto psicologo){
         PsicologoDto psicologoDto=psicologoService.crearPsicologo(psicologo);
         return ResponseEntity.ok().body(psicologoDto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPsicologoPorId(@PathVariable Long id){
         PsicologoDto psicologoDto=psicologoService.obtenerPsicologoPorId(id);

@@ -1,14 +1,21 @@
 package com.devcorp.psiconote.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Data
-@Entity(name = "Usuarios")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "usuarios")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +32,9 @@ public class Usuario {
 
     @OneToOne(mappedBy = "usuario")
     private Paciente paciente;
-    @ManyToMany
-    @JoinTable(
-        name = "usuarios_roles",
-        joinColumns = @JoinColumn(name = "id_usuario"),
-        inverseJoinColumns = @JoinColumn(name="id_rol"))
-    private Set<Rol> roles = new HashSet<>();
+
+    @ManyToMany(targetEntity = Rol.class,cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "id_usuario",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_rol",referencedColumnName = "id"))
+    private Set<Rol> roles;
 }
