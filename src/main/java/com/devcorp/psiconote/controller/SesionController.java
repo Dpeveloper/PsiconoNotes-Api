@@ -2,11 +2,12 @@ package com.devcorp.psiconote.controller;
 
 import com.devcorp.psiconote.dtos.SesionDto;
 import com.devcorp.psiconote.dtos.SesionToSaveDto;
-import com.devcorp.psiconote.entities.Sesion;
 import com.devcorp.psiconote.services.sesion.SesionService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173/")
@@ -28,6 +29,7 @@ public class SesionController {
     public ResponseEntity<?> obtenerSesiones(){
         List<SesionDto> sesionDtos=sesionService.obtenerSesiones();
         return ResponseEntity.ok().body(sesionDtos);
+
     }
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> actualizarSesion(@PathVariable Long id,@RequestBody SesionToSaveDto sesion){
@@ -74,5 +76,25 @@ public class SesionController {
     public ResponseEntity<?> eliminarSesion(@PathVariable Long id){
         sesionService.eliminarSesion(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/cancelar/{id}")
+    public ResponseEntity<?> cancelarSesion(@PathVariable Long id, @PathVariable String notificacion){
+        return ResponseEntity.ok().body(sesionService.cancelarSesion(id, notificacion));
+    }
+
+    @PutMapping("/reagendar/{id}")
+    public ResponseEntity<?> reagendarSesion(@PathVariable Long id, LocalDateTime fecha, String lugarSesion){
+        return ResponseEntity.ok().body(sesionService.reagendarSesion(id,fecha,lugarSesion));
+    }
+
+    @PutMapping("/solicitarCancelacion/{id}")
+    public ResponseEntity<?> solicitarCancelarSesion(@PathVariable Long id, @PathVariable String notificacion){
+        return ResponseEntity.ok().body(sesionService.solicitarCancelarSesion(id, notificacion));
+    }
+
+    @PutMapping("/solicitarReagendacion/{id}")
+    public ResponseEntity<?> solicitarReagendarSesion(@PathVariable Long id, LocalDateTime fecha, String lugarSesion){
+        return ResponseEntity.ok().body(sesionService.solicitarReagendarSesion(id,lugarSesion));
     }
 }

@@ -54,4 +54,5 @@ public interface PsicologoMapper {
     default List<PacienteDto> pacienteListToDtoList(List<Paciente> pacientes){
         return pacientes.stream().map(PacienteMapper.instancia::entityToDto).collect(Collectors.toList());
     }
+
 }

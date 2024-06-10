@@ -17,13 +17,13 @@ public class Usuario {
     private String username;
     private String password;
 
-    @OneToOne(mappedBy = "usuario")
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Psicologo psicologo;
 
-    @OneToOne(mappedBy = "usuario")
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Administrador administrador;
 
-    @OneToOne(mappedBy = "usuario")
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Paciente paciente;
     @ManyToMany
     @JoinTable(
@@ -31,4 +31,5 @@ public class Usuario {
         joinColumns = @JoinColumn(name = "id_usuario"),
         inverseJoinColumns = @JoinColumn(name="id_rol"))
     private Set<Rol> roles = new HashSet<>();
+
 }

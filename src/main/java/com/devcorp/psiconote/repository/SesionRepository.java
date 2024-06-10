@@ -19,8 +19,8 @@ public interface SesionRepository extends JpaRepository<Sesion,Long> {
     Sesion updateEstadoSesion(String nombreEstado,Long id);
 
     @Query("SELECT s FROM Sesion s WHERE psicologo.id=?1")
-    List<Sesion> findByPsicologo(Long idPsicologo);
 
-    @Query("SELECT s FROM Sesion s WHERE paciente.id=?1")
+    List<Sesion> findByPsicologo(Long idPsicologo);
     List<Sesion> findByPaciente(Long idPaciente);
+    List<Sesion> findSesionByPacienteId(Long idPaciente);
 }

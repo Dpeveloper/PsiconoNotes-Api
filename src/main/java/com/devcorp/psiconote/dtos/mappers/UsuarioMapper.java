@@ -30,4 +30,5 @@ public interface UsuarioMapper{
     @Mapping(target = "paciente",ignore = true)
     @Mapping(target = "roles",ignore = true)
     Usuario toSaveDtoToUsuario(UsuarioToSaveDto usuario);
+
 }

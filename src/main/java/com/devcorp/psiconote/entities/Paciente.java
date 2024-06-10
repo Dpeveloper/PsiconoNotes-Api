@@ -1,5 +1,6 @@
 package com.devcorp.psiconote.entities;
 
+import com.devcorp.psiconote.dtos.EstadoToSaveDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +41,4 @@ public class Paciente {
     @JoinColumn(name = "usuario",referencedColumnName = "id")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "paciente",fetch = FetchType.EAGER)
-    private List<Sesion> sesiones;
 }

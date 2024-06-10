@@ -12,8 +12,10 @@ public interface PacienteService {
     PacienteDto guardarPaciente(PacienteToSaveDto paciente);
     PacienteDto actualizarPaciente(PacienteDto pacienteDto);
     PacienteDto buscarPacientePorId(Long id);
+    List<PacienteDto> buscarPacientePorNombre(String nombre);
     List<PacienteDto> buscarPacientes();
     PacienteDto actualizarSesiones(Long idPaciente, Sesion sesion);
     PacienteDto actualizarEstado(Long id, EstadoDto estadoDto);
+    List<PacienteDto> buscarPacientesActivos();
 
 }

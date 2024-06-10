@@ -31,5 +31,4 @@ public class Psicologo {
 
     @OneToMany(mappedBy = "psicologo",fetch = FetchType.EAGER)
     private List<Sesion> sesiones;
-
 }

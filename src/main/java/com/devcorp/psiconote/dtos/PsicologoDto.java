@@ -9,3 +9,4 @@ public record PsicologoDto(Long id,
                            int edad,
                            String telefono
                            /*List<PacienteDto> pacientes*/) {}
+

@@ -5,6 +5,7 @@ import com.devcorp.psiconote.dtos.PacienteDto;
 import com.devcorp.psiconote.dtos.PsicologoDto;
 import com.devcorp.psiconote.dtos.PsicologoToSaveDto;
 import com.devcorp.psiconote.services.psicologo.PsicologoService;
+
 import com.devcorp.psiconote.services.psicologo.PsicologoServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,6 @@ public class PsicologoController {
     public PsicologoController(PsicologoServiceImp psicologoService) {
         this.psicologoService = psicologoService;
     }
-
     @PostMapping("/guardar")
     public ResponseEntity<?> guardarPsicologo(@RequestBody PsicologoToSaveDto psicologo){
         PsicologoDto psicologoDto=psicologoService.crearPsicologo(psicologo);
@@ -42,10 +42,22 @@ public class PsicologoController {
         return ResponseEntity.ok(actualizado);
     }
 
-    @GetMapping("/{id}/pacientes")
+    @GetMapping
+    public ResponseEntity<List<PsicologoDto>> listarPsicologos() {
+        List<PsicologoDto> psicologoDtos = psicologoService.buscarTodosLosPsicologos();
+        return ResponseEntity.ok(psicologoDtos);
+    }
+
+    @GetMapping("/{id}")
     public ResponseEntity<List<PacienteDto>> buscarTodosLosPacientes(@PathVariable Long id) {
         List<PacienteDto> pacientes = psicologoService.buscarTodosLosPacientes(id);
         return ResponseEntity.ok(pacientes);
+    }
+
+    @GetMapping("/{nombrePsicologo}")
+    public ResponseEntity<List<PsicologoDto>> buscarPorNombre(@PathVariable String nombrePsicologo) {
+        List<PsicologoDto> psicologoEncontrado = psicologoService.buscarPsicologoPorNombre(nombrePsicologo);
+        return ResponseEntity.ok(psicologoEncontrado);
     }
 
     @PostMapping("/{id}/informes")
@@ -53,4 +65,5 @@ public class PsicologoController {
         InformeDto informeGenerado = psicologoService.generarInformePaciente(id, informeDto);
         return ResponseEntity.ok(informeGenerado);
     }
+
 }

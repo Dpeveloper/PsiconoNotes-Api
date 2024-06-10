@@ -27,6 +27,7 @@ public class Sesion {
     @Temporal(TemporalType.TIME)
     private LocalTime horaFinal;
     private String lugarSesion;
+    private String notificacion;
 
     //paciente dentro de la sesión
     @ManyToOne

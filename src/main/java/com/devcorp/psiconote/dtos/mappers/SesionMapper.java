@@ -24,6 +24,7 @@ public interface SesionMapper {
                 sesionDto.horaInicio(),
                 sesionDto.horaFinal(),
                 sesionDto.lugarSesion(),
+                sesionDto.notificacion(),
                 PacienteMapper.instancia.dtoToEntity(sesionDto.paciente()),
                 PsicologoMapper.instancia.toPsicologo(sesionDto.psicologo()),
                 EstadoMapper.instancia.estadoDtoToEntity(sesionDto.estado()),
