@@ -41,8 +41,8 @@ public class PacienteServiceImp implements PacienteService {
     }
 
     @Override
-    public PacienteDto actualizarPaciente(PacienteDto pacienteDto) {
-        Paciente pacienteExistente = pacienteRepository.findById(pacienteDto.id())
+    public PacienteDto actualizarPaciente(Long id,PacienteToSaveDto pacienteDto) {
+        Paciente pacienteExistente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
 
         pacienteExistente.setNombre(pacienteDto.nombre());
@@ -54,6 +54,7 @@ public class PacienteServiceImp implements PacienteService {
         pacienteExistente.setAcudiente(pacienteDto.acudiente());
         pacienteExistente.setTelEmergencia(pacienteDto.telEmergencia());
         pacienteExistente.setTelAcudiente(pacienteDto.telAcudiente());
+        pacienteExistente.setGrado(pacienteDto.grado());
 
         Paciente pacienteActualizado = pacienteRepository.save(pacienteExistente);
         return pacienteMapper.entityToDto(pacienteActualizado);

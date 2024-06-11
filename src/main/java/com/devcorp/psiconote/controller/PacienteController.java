@@ -30,8 +30,8 @@ public class PacienteController {
     }
 
     @PutMapping("actualizarPaciente/{id}")
-    public ResponseEntity<PacienteDto> actualizarPaciente(@RequestBody PacienteDto pacienteDto) {
-        PacienteDto pacienteActualizado = pacienteService.actualizarPaciente(pacienteDto);
+    public ResponseEntity<PacienteDto> actualizarPaciente(@RequestBody PacienteToSaveDto pacienteDto,@PathVariable Long id) {
+        PacienteDto pacienteActualizado = pacienteService.actualizarPaciente(id,pacienteDto);
         return ResponseEntity.ok(pacienteActualizado);
     }
 

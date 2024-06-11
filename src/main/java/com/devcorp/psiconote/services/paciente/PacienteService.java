@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface PacienteService {
     PacienteDto guardarPaciente(PacienteToSaveDto paciente);
-    PacienteDto actualizarPaciente(PacienteDto pacienteDto);
+    PacienteDto actualizarPaciente(Long id, PacienteToSaveDto pacienteDto);
     PacienteDto buscarPacientePorId(Long id);
     List<PacienteDto> buscarPacientePorNombre(String nombre);
     List<PacienteDto> buscarPacientes();
