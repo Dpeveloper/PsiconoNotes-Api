@@ -45,6 +45,7 @@ public interface SesionMapper {
                         .horaFinal(LocalTime.parse(sesionToSaveDto.horaFinal(),timeFormatter))
                         .lugarSesion(sesionToSaveDto.lugarSesion())
                         .estado(EstadoMapper.instancia.estadoToSaveDtoToEntity(sesionToSaveDto.estado()))
-                    .build();
+                        .notificacion(sesionToSaveDto.notificacion())
+                        .build();
     };
 }
