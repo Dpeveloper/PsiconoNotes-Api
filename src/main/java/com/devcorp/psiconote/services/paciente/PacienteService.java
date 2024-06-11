@@ -18,4 +18,5 @@ public interface PacienteService {
     PacienteDto actualizarEstado(Long id, EstadoDto estadoDto);
     List<PacienteDto> buscarPacientesActivos();
 
+    PacienteDto actualizarEstado(Long id, String estado);
 }

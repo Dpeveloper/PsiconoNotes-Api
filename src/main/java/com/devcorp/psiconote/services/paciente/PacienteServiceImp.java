@@ -5,9 +5,7 @@ import com.devcorp.psiconote.dtos.PacienteDto;
 import com.devcorp.psiconote.dtos.PacienteToSaveDto;
 import com.devcorp.psiconote.dtos.mappers.EstadoMapper;
 import com.devcorp.psiconote.dtos.mappers.PacienteMapper;
-import com.devcorp.psiconote.entities.Estado;
 import com.devcorp.psiconote.entities.Paciente;
-import com.devcorp.psiconote.entities.Psicologo;
 import com.devcorp.psiconote.entities.Sesion;
 import com.devcorp.psiconote.repository.PacienteRepository;
 import com.devcorp.psiconote.repository.PsicologoRepository;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,7 +66,7 @@ public class PacienteServiceImp implements PacienteService {
     @Override
     public List<PacienteDto> buscarPacientePorNombre(String nombre) {
         List<Paciente> pacientes = pacienteRepository.findByNombre(nombre);
-        return pacientes.stream().map(pacienteMapper::toPacienteDto).collect(Collectors.toList());
+        return pacientes.stream().map(pacienteMapper::entityToDto).collect(Collectors.toList());
     }
 
     @Override
@@ -82,16 +79,21 @@ public class PacienteServiceImp implements PacienteService {
     @Override
     public PacienteDto actualizarSesiones(Long idPaciente, Sesion sesion) {
         Paciente paciente=pacienteRepository.findById(idPaciente).orElseThrow(()->new ResourceNotFoundException("Paciente no encontrado"));
-        List<Sesion> sesiones=paciente.getSesiones();
+        List<Sesion> sesiones=paciente.getPsicologo().getSesiones();
         sesiones.add(sesion);
-        paciente.setSesiones(sesiones);
+        paciente.getPsicologo().setSesiones(sesiones);
         Paciente paciente1=pacienteRepository.save(paciente);
         return pacienteMapper.entityToDto(paciente1);
     }
 
+    @Override
+    public PacienteDto actualizarEstado(Long id, EstadoDto estadoDto) {
+        return null;
+    }
+
     public List<PacienteDto> buscarPacientesActivos() {
         List<Paciente> pacientes = pacienteRepository.findByEstado("Activo");
-        return pacientes.stream().map(pacienteMapper::toPacienteDto).collect(Collectors.toList());
+        return pacientes.stream().map(pacienteMapper::entityToDto).collect(Collectors.toList());
     }
 
     @Override
@@ -102,6 +104,6 @@ public class PacienteServiceImp implements PacienteService {
         pacienteExistente.setEstado(estado);
 
         Paciente pacienteActualizado = pacienteRepository.save(pacienteExistente);
-        return pacienteMapper.toPacienteDto(pacienteActualizado);
+        return pacienteMapper.entityToDto(pacienteActualizado);
     }
 }
