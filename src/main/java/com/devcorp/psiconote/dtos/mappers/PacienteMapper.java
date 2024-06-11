@@ -15,7 +15,6 @@ public interface PacienteMapper {
     PacienteMapper instancia = Mappers.getMapper(PacienteMapper.class);
 
     @Mapping(target = "psicologo", ignore = true)
-    @Mapping(target = "grado", ignore = true)
     @Mapping(target = "usuario", ignore = true)
     Paciente dtoToEntity(PacienteDto pacienteDto);
 
@@ -23,7 +22,6 @@ public interface PacienteMapper {
 
     @Mapping(target = "id",ignore = true)
     @Mapping(target = "psicologo",ignore = true)
-    @Mapping(target = "grado",ignore = true)
     @Mapping(target = "usuario",expression = "java(usuarioToSaveDtoToUsuario(paciente.usuario()))")
     Paciente toSaveDtoToEntity(PacienteToSaveDto paciente);
 
