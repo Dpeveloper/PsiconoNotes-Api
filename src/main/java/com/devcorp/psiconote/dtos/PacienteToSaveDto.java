@@ -10,4 +10,5 @@ public record PacienteToSaveDto(String nombre,
                                 String telEmergencia,
                                 String telAcudiente,
                                 String estado,
-                                UsuarioToSaveDto usuario) {}
+                                UsuarioToSaveDto usuario,
+                                GradoDto gradoDto) {}
