@@ -10,4 +10,5 @@ public record PacienteDto(Long id,
                           String acudiente,
                           String telEmergencia,
                           String telAcudiente,
-                          String estado) {}
+                          String estado,
+                          String grado) {}
