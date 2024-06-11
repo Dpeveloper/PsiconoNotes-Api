@@ -1,9 +1,6 @@
 package com.devcorp.psiconote.controller;
 
-import com.devcorp.psiconote.dtos.InformeDto;
-import com.devcorp.psiconote.dtos.PacienteDto;
-import com.devcorp.psiconote.dtos.PsicologoDto;
-import com.devcorp.psiconote.dtos.PsicologoToSaveDto;
+import com.devcorp.psiconote.dtos.*;
 import com.devcorp.psiconote.services.psicologo.PsicologoService;
 
 import com.devcorp.psiconote.services.psicologo.PsicologoServiceImp;
@@ -61,8 +58,8 @@ public class PsicologoController {
     }
 
     @PostMapping("/{id}/informes")
-    public ResponseEntity<InformeDto> generarInformePaciente(@PathVariable Long id, @RequestBody InformeDto informeDto) {
-        InformeDto informeGenerado = psicologoService.generarInformePaciente(id, informeDto);
+    public ResponseEntity<InformeDto> generarInformePaciente(@PathVariable Long id, @RequestBody InformeToSaveDto informeToSaveDto) {
+        InformeDto informeGenerado = psicologoService.generarInformePaciente(id, informeToSaveDto);
         return ResponseEntity.ok(informeGenerado);
     }
 

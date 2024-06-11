@@ -1,9 +1,6 @@
 package com.devcorp.psiconote.services.psicologo;
 
-import com.devcorp.psiconote.dtos.InformeDto;
-import com.devcorp.psiconote.dtos.PacienteDto;
-import com.devcorp.psiconote.dtos.PsicologoDto;
-import com.devcorp.psiconote.dtos.PsicologoToSaveDto;
+import com.devcorp.psiconote.dtos.*;
 import com.devcorp.psiconote.dtos.mappers.InformeMapper;
 import com.devcorp.psiconote.dtos.mappers.PacienteMapper;
 import com.devcorp.psiconote.dtos.mappers.PsicologoMapper;
@@ -103,11 +100,11 @@ public class PsicologoServiceImp implements PsicologoService {
     }
 
     @Override
-    public InformeDto generarInformePaciente(Long pacienteId, InformeDto informeDto) {
+    public InformeDto generarInformePaciente(Long pacienteId, InformeToSaveDto informeToSaveDto) {
         Paciente paciente = pacienteRepository.findById(pacienteId)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
 
-        Informe informe = informeMapper.dtoToEntity(informeDto);
+        Informe informe = informeMapper.toSaveDtoToEntity(informeToSaveDto);
         informe.setPaciente(paciente);
         informe.setPsicologo(paciente.getPsicologo());
 

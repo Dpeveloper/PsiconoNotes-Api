@@ -1,9 +1,6 @@
 package com.devcorp.psiconote.services.psicologo;
 
-import com.devcorp.psiconote.dtos.InformeDto;
-import com.devcorp.psiconote.dtos.PsicologoDto;
-import com.devcorp.psiconote.dtos.PacienteDto;
-import com.devcorp.psiconote.dtos.PsicologoToSaveDto;
+import com.devcorp.psiconote.dtos.*;
 import com.devcorp.psiconote.entities.Sesion;
 
 import java.util.List;
@@ -17,6 +14,6 @@ public interface PsicologoService {
     public List<PacienteDto> buscarTodosLosPacientes(Long psicologoId);
     public PsicologoDto actualizarSesiones(Long idPsicologo, Sesion sesion);
     public List<PsicologoDto> buscarPsicologoPorNombre(String nombrePsicologo);
-    public InformeDto generarInformePaciente(Long pacienteId, InformeDto informe);
+    public InformeDto generarInformePaciente(Long pacienteId, InformeToSaveDto informeToSaveDto);
 
 }
