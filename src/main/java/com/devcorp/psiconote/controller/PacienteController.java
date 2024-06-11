@@ -29,7 +29,7 @@ public class PacienteController {
         return ResponseEntity.ok(nuevoPaciente);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("actualizarPaciente/{id}")
     public ResponseEntity<PacienteDto> actualizarPaciente(@RequestBody PacienteDto pacienteDto) {
         PacienteDto pacienteActualizado = pacienteService.actualizarPaciente(pacienteDto);
         return ResponseEntity.ok(pacienteActualizado);
@@ -53,13 +53,13 @@ public class PacienteController {
         return ResponseEntity.ok(pacienteDtos);
     }
 
-    @GetMapping
+    @GetMapping("/activos")
     public ResponseEntity<List<PacienteDto>> buscarActivos(){
         List<PacienteDto> pacienteDtos = pacienteService.buscarPacientesActivos();
         return ResponseEntity.ok(pacienteDtos);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("ActualizarEstado/{id}")
     public ResponseEntity<PacienteDto> actualizarEstado(@PathVariable Long id, @RequestParam String estado) {
         PacienteDto pacienteDto= pacienteService.actualizarEstado(id,estado);
         return ResponseEntity.ok(pacienteDto);

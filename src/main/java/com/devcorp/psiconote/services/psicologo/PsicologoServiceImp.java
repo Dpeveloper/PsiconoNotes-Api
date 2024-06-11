@@ -89,12 +89,13 @@ public class PsicologoServiceImp implements PsicologoService {
 
     @Override
     public PsicologoDto actualizarSesiones(Long idPsicologo, Sesion sesion) {
-        Psicologo psicologo=psicologoRepository.findById(idPsicologo).orElseThrow(()->new ResourceNotFoundException("Psicologo no encontrado"));
-        List<Sesion> sesiones=psicologo.getSesiones();
+        Psicologo psicologo = psicologoRepository.findById(idPsicologo).orElseThrow(() -> new ResourceNotFoundException("Psicologo no encontrado"));
+        List<Sesion> sesiones = psicologo.getSesiones();
         sesiones.add(sesion);
         psicologo.setSesiones(sesiones);
-        Psicologo psicologo1=psicologoRepository.save(psicologo);
+        Psicologo psicologo1 = psicologoRepository.save(psicologo);
         return psicologoMapper.toPsicologoDto(psicologo1);
+    }
 
     public List<PsicologoDto> buscarPsicologoPorNombre(String nombrePsicologo) {
         List<Psicologo> psicologos = psicologoRepository.findByNombre(nombrePsicologo);
