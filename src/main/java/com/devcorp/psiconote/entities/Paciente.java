@@ -28,14 +28,12 @@ public class Paciente {
     private String telEmergencia;
     private String telAcudiente;
     private String estado;
-
+    private String grado;
     @ManyToOne
     @JoinColumn(name = "psicologo",referencedColumnName = "id")
     private Psicologo psicologo;
 
-    @ManyToOne
-    @JoinColumn(name = "grado", referencedColumnName = "id")
-    private Grado grado;
+
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "usuario",referencedColumnName = "id")
