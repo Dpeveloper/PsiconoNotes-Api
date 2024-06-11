@@ -5,5 +5,6 @@ public record PsicologoToSaveDto(String nombre,
                                  String estado,
                                  Integer edad,
                                  String telefono,
+                                 String email,
                                  UsuarioToSaveDto usuario) {
 }

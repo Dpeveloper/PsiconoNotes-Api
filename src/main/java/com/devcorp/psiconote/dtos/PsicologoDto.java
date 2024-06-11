@@ -7,6 +7,6 @@ public record PsicologoDto(Long id,
                            String apellido,
                            String estado,
                            int edad,
-                           String telefono
-                           /*List<PacienteDto> pacientes*/) {}
+                           String email,
+                           String telefono) {}
 

@@ -20,6 +20,7 @@ public class Psicologo {
     private String apellido;
     private String estado;
     private int edad;
+    private String email;
     private String telefono;
 
     @OneToOne(cascade = CascadeType.PERSIST)
