@@ -30,7 +30,7 @@ public class PsicologoController {
         return ResponseEntity.ok().body(psicologoDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("obtenerPsicologoPorId/{id}")
     public ResponseEntity<?> obtenerPsicologoPorId(@PathVariable Long id){
         PsicologoDto psicologoDto=psicologoService.obtenerPsicologoPorId(id);
         return ResponseEntity.ok().body(psicologoDto);
@@ -48,7 +48,7 @@ public class PsicologoController {
         return ResponseEntity.ok(psicologoDtos);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("buscarPacientes/{id}")
     public ResponseEntity<List<PacienteDto>> buscarTodosLosPacientes(@PathVariable Long id) {
         List<PacienteDto> pacientes = psicologoService.buscarTodosLosPacientes(id);
         return ResponseEntity.ok(pacientes);

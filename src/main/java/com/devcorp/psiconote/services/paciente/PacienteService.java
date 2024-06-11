@@ -14,8 +14,7 @@ public interface PacienteService {
     PacienteDto buscarPacientePorId(Long id);
     List<PacienteDto> buscarPacientePorNombre(String nombre);
     List<PacienteDto> buscarPacientes();
-    PacienteDto actualizarSesiones(Long idPaciente, Sesion sesion);
-    PacienteDto actualizarEstado(Long id, EstadoDto estadoDto);
+    PacienteDto actualizarEstado(Long id, String estado);
     List<PacienteDto> buscarPacientesActivos();
 
 }

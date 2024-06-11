@@ -14,7 +14,7 @@ public interface PsicologoService {
     public PsicologoDto obtenerPsicologoPorId(Long id);
     public PsicologoDto actualizarPsicologo(PsicologoDto psicologo);
     public List<PsicologoDto> buscarTodosLosPsicologos();
-    public List<PacienteDto> buscarTodosLosPacientes(Long psicologoId);<<<<<<< service/controller-layer
+    public List<PacienteDto> buscarTodosLosPacientes(Long psicologoId);
     public PsicologoDto actualizarSesiones(Long idPsicologo, Sesion sesion);
     public List<PsicologoDto> buscarPsicologoPorNombre(String nombrePsicologo);
     public InformeDto generarInformePaciente(Long pacienteId, InformeDto informe);

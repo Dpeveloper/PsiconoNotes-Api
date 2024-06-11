@@ -7,6 +7,7 @@ import com.devcorp.psiconote.services.sesion.SesionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -84,7 +85,7 @@ public class SesionController {
     }
 
     @PutMapping("/reagendar/{id}")
-    public ResponseEntity<?> reagendarSesion(@PathVariable Long id, LocalDateTime fecha, String lugarSesion){
+    public ResponseEntity<?> reagendarSesion(@PathVariable Long id, LocalDate fecha, String lugarSesion){
         return ResponseEntity.ok().body(sesionService.reagendarSesion(id,fecha,lugarSesion));
     }
 

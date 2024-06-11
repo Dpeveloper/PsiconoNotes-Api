@@ -9,10 +9,9 @@ import com.devcorp.psiconote.dtos.mappers.SesionMapper;
 import com.devcorp.psiconote.entities.Estado;
 import com.devcorp.psiconote.entities.Informe;
 import com.devcorp.psiconote.entities.Sesion;
-import com.devcorp.psiconote.repository.InformeRepository;
-import com.devcorp.psiconote.repository.PacienteRepository;
-import com.devcorp.psiconote.repository.PsicologoRepository;
-import com.devcorp.psiconote.repository.SesionRepository;
+import com.devcorp.psiconote.entities.SesionCancelada;
+import com.devcorp.psiconote.repository.*;
+import com.devcorp.psiconote.services.ResourceNotFoundException;
 import com.devcorp.psiconote.services.paciente.PacienteService;
 import com.devcorp.psiconote.services.psicologo.PsicologoService;
 
@@ -33,11 +32,13 @@ public class SesionServiceImpl implements SesionService{
     private final InformeRepository informeRepository;
     private final PacienteService pacienteService;
     private final PsicologoService psicologoService;
+    private final SesionCanceladaRepository sesionCanceladaRepository;
     public SesionServiceImpl(SesionMapper sesionMapper, SesionRepository sesionRepository,
                              PsicologoRepository psicologoRepository, PacienteRepository pacienteRepository,
                              InformeRepository informeRepository,
                              PacienteService pacienteService,
-                             PsicologoService psicologoService) {
+                             PsicologoService psicologoService,
+                             SesionCanceladaRepository sesionCanceladaRepository) {
         this.sesionMapper = sesionMapper;
         this.sesionRepository = sesionRepository;
         this.psicologoRepository=psicologoRepository;
@@ -45,6 +46,7 @@ public class SesionServiceImpl implements SesionService{
         this.informeRepository=informeRepository;
         this.pacienteService=pacienteService;
         this.psicologoService=psicologoService;
+        this.sesionCanceladaRepository=sesionCanceladaRepository;
     }
 
     @Override
@@ -56,7 +58,6 @@ public class SesionServiceImpl implements SesionService{
         Sesion guardada=sesionRepository.save(sesion);
 
         psicologoService.actualizarSesiones(sesionToSaveDto.idPsicologo(),guardada);
-        pacienteService.actualizarSesiones(sesionToSaveDto.idPaciente(),guardada);
         return sesionMapper.entityToDto(sesion);
     }
 
@@ -136,14 +137,14 @@ public class SesionServiceImpl implements SesionService{
     }
 
     @Override
-    public SesionDto reagendarSesion(Long idSesion, LocalDateTime fecha, String lugarSesion) {
+    public SesionDto reagendarSesion(Long idSesion, LocalDate fecha, String lugarSesion) {
         Sesion sesion = sesionRepository.findById(idSesion)
                 .orElseThrow(() -> new RuntimeException("Sesión no encontrada para reagendar"));
 
         sesion.setLugarSesion(lugarSesion);
 
-        if(sesionRepository.findByFechaYHora(fecha).isEmpty()){
-            sesion.setFechaYHora(fecha);
+        if(sesionRepository.findByFecha(fecha).isEmpty()){
+            sesion.setFecha(fecha);
             sesion.setEstado(new Estado("Agendada"));
             return sesionMapper.entityToDto(sesionRepository.save(sesion));
         }
@@ -160,7 +161,7 @@ public class SesionServiceImpl implements SesionService{
         Sesion sesionCancelada = sesionRepository.save(sesion);
 
         sesionCanceladaRepository.save(new SesionCancelada(null,
-                sesion.getFechaYHora(),
+                sesion.getFecha(),
                 sesion.getLugarSesion(),
                 sesion.getPaciente(),
                 sesion.getPsicologo(),
