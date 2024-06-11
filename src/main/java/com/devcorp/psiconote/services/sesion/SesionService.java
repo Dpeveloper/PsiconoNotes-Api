@@ -21,8 +21,8 @@ public interface SesionService {
     List<SesionDto> obtenerSesiones();
     SesionDto actualizarInformeSesion(Long idSesion,Long idInforme);
     SesionDto actualizarEstadoSesion(String nombreEstado, Long idSesion);
-    void eliminarSesion(Long id);
-    SesionDto reagendarSesion(Long idSesion, LocalDateTime fecha, String lugarSesion);
+    void eliminarSesion(Long id, String motivo);
+    SesionDto reagendarSesion(Long idSesion, LocalDate fecha, String lugarSesion);
     SesionDto cancelarSesion(Long id, String notificacion);
 
     Object solicitarCancelarSesion(Long id, String notificacion);

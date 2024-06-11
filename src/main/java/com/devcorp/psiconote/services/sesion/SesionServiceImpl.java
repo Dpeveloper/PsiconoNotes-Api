@@ -33,12 +33,12 @@ public class SesionServiceImpl implements SesionService{
     private final PacienteService pacienteService;
     private final PsicologoService psicologoService;
     private final SesionCanceladaRepository sesionCanceladaRepository;
-
     public SesionServiceImpl(SesionMapper sesionMapper, SesionRepository sesionRepository,
                              PsicologoRepository psicologoRepository, PacienteRepository pacienteRepository,
                              InformeRepository informeRepository,
                              PacienteService pacienteService,
-                             PsicologoService psicologoService, SesionCanceladaRepository sesionCanceladaRepository) {
+                             PsicologoService psicologoService,
+                             SesionCanceladaRepository sesionCanceladaRepository) {
         this.sesionMapper = sesionMapper;
         this.sesionRepository = sesionRepository;
         this.psicologoRepository=psicologoRepository;
@@ -46,7 +46,7 @@ public class SesionServiceImpl implements SesionService{
         this.informeRepository=informeRepository;
         this.pacienteService=pacienteService;
         this.psicologoService=psicologoService;
-        this.sesionCanceladaRepository = sesionCanceladaRepository;
+        this.sesionCanceladaRepository=sesionCanceladaRepository;
     }
 
     @Override
@@ -58,7 +58,6 @@ public class SesionServiceImpl implements SesionService{
         Sesion guardada=sesionRepository.save(sesion);
 
         psicologoService.actualizarSesiones(sesionToSaveDto.idPsicologo(),guardada);
-        pacienteService.actualizarSesiones(sesionToSaveDto.idPaciente(),guardada);
         return sesionMapper.entityToDto(sesion);
     }
 
@@ -132,24 +131,31 @@ public class SesionServiceImpl implements SesionService{
     }
 
     @Override
-    public void eliminarSesion(Long id) {
-        sesionRepository.findById(id).orElseThrow(()->new RuntimeException("Sesión no encontrada para eliminar"));
+    public void eliminarSesion(Long id, String motivo) {
+        Sesion sesion = sesionRepository.findById(id).orElseThrow(() -> new RuntimeException("Sesión no encontrada para eliminar"));
+        sesionCanceladaRepository.save(new SesionCancelada(null,
+                sesion.getFecha(),
+                sesion.getLugarSesion(),
+                sesion.getPaciente(),
+                sesion.getPsicologo(),
+                new Estado("Cancelada"),
+                motivo));
         sesionRepository.deleteById(id);
     }
 
     @Override
-    public SesionDto reagendarSesion(Long idSesion, LocalDateTime fecha, String lugarSesion) {
+    public SesionDto reagendarSesion(Long idSesion, LocalDate fecha, String lugarSesion) {
         Sesion sesion = sesionRepository.findById(idSesion)
                 .orElseThrow(() -> new RuntimeException("Sesión no encontrada para reagendar"));
 
         sesion.setLugarSesion(lugarSesion);
 
-        if(sesionRepository.findByFechaYHora(fecha).isEmpty()){
-            sesion.setFechaYHora(fecha);
+        if(sesionRepository.findByFecha(fecha).isEmpty()){
+            sesion.setFecha(fecha);
             sesion.setEstado(new Estado("Agendada"));
             return sesionMapper.entityToDto(sesionRepository.save(sesion));
         }
-        throw  new RuntimeException("El psicolog ya tiene una sesión a esa hora");
+        throw  new RuntimeException("El psicologo ya tiene una sesión a esa hora");
     }
 
     @Override
@@ -162,7 +168,7 @@ public class SesionServiceImpl implements SesionService{
         Sesion sesionCancelada = sesionRepository.save(sesion);
 
         sesionCanceladaRepository.save(new SesionCancelada(null,
-                sesion.getFechaYHora(),
+                sesion.getFecha(),
                 sesion.getLugarSesion(),
                 sesion.getPaciente(),
                 sesion.getPsicologo(),

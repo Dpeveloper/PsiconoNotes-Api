@@ -1,12 +1,10 @@
 package com.devcorp.psiconote.services.paciente;
 
-import com.devcorp.psiconote.dtos.EstadoDto;
 import com.devcorp.psiconote.dtos.PacienteDto;
 import com.devcorp.psiconote.dtos.PacienteToSaveDto;
 import com.devcorp.psiconote.dtos.mappers.EstadoMapper;
 import com.devcorp.psiconote.dtos.mappers.PacienteMapper;
 import com.devcorp.psiconote.entities.Paciente;
-import com.devcorp.psiconote.entities.Sesion;
 import com.devcorp.psiconote.repository.PacienteRepository;
 import com.devcorp.psiconote.repository.PsicologoRepository;
 import com.devcorp.psiconote.services.ResourceNotFoundException;
@@ -20,14 +18,12 @@ import java.util.stream.Collectors;
 public class PacienteServiceImp implements PacienteService {
 
     private final PacienteRepository pacienteRepository;
-    private final PsicologoRepository psicologoRepository;
     private final PacienteMapper pacienteMapper;
 
     @Autowired
     public PacienteServiceImp(PacienteMapper pacienteMapper, PacienteRepository pacienteRepository, PsicologoRepository psicologoRepository, EstadoMapper estadoMapper) {
         this.pacienteMapper = pacienteMapper;
         this.pacienteRepository = pacienteRepository;
-        this.psicologoRepository = psicologoRepository;
     }
 
     @Override
@@ -76,21 +72,8 @@ public class PacienteServiceImp implements PacienteService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public PacienteDto actualizarSesiones(Long idPaciente, Sesion sesion) {
-        Paciente paciente=pacienteRepository.findById(idPaciente).orElseThrow(()->new ResourceNotFoundException("Paciente no encontrado"));
-        List<Sesion> sesiones=paciente.getPsicologo().getSesiones();
-        sesiones.add(sesion);
-        paciente.getPsicologo().setSesiones(sesiones);
-        Paciente paciente1=pacienteRepository.save(paciente);
-        return pacienteMapper.entityToDto(paciente1);
-    }
 
     @Override
-    public PacienteDto actualizarEstado(Long id, EstadoDto estadoDto) {
-        return null;
-    }
-
     public List<PacienteDto> buscarPacientesActivos() {
         List<Paciente> pacientes = pacienteRepository.findByEstado("Activo");
         return pacientes.stream().map(pacienteMapper::entityToDto).collect(Collectors.toList());

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
@@ -17,8 +18,8 @@ public class SesionCancelada{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime fechaYHora;
+    @Temporal(TemporalType.DATE)
+    private LocalDate fecha;
     private String lugarSesion;
 
     //paciente dentro de la sesión
