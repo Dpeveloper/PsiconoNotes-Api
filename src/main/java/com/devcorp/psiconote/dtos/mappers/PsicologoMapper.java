@@ -30,7 +30,8 @@ public interface PsicologoMapper {
                 psicologo.getApellido(),
                 psicologo.getEstado(),
                 psicologo.getEdad(),
-                psicologo.getTelefono());/*,
+                psicologo.getTelefono(),
+                psicologo.getUsuario().getEmail());/*,
                 PsicologoMapper.instancia.pacienteListToDtoList(psicologo.getPacientes()));*/
     };
 
